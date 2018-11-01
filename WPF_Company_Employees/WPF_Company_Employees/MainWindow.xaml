@@ -1,0 +1,70 @@
+﻿<Window x:Class="WPF_Company_Employees.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_Company_Employees"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="141*"/>
+            <ColumnDefinition Width="170*"/>
+            <ColumnDefinition Width="209*"/>
+            <ColumnDefinition Width="28*"/>
+            <ColumnDefinition Width="244*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="27*"/>
+            <RowDefinition Height="26*"/>
+            <RowDefinition Height="27*"/>
+            <RowDefinition Height="291*"/>
+            <RowDefinition Height="44*"/>
+        </Grid.RowDefinitions>
+        <ListBox x:Name="employeesList" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch"  UseLayoutRounding="False" ScrollViewer.CanContentScroll="True" Grid.RowSpan="2" SelectionChanged="employeesList_SelectionChanged">
+            <ListBox.LayoutTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ListBox.LayoutTransform>
+            <ListBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ListBox.RenderTransform>
+        </ListBox>
+        <ComboBox x:Name="departments_Combo" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Grid.Row="2" SelectionChanged="departments_Combo_SelectionChanged" KeyDown="departments_Combo_KeyDown"/>
+        <Image x:Name="photoImage" Grid.Column="1"  HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Source="defaultPhoto.png"/>
+        <TextBlock Grid.Column="2" Margin="0,80,4,0" Grid.Row="4" TextWrapping="Wrap" Text="ФИО" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
+        <TextBlock Grid.Column="2" Margin="0,104,4,0" Grid.Row="4" TextWrapping="Wrap" Text="Дата приема на работу" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
+        <TextBlock Grid.Column="2" Margin="0,128,5,0" Grid.Row="4" TextWrapping="Wrap" Text="Дата рождения" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
+        <TextBlock Grid.Column="2" Margin="0,152,3,0" Grid.Row="4" TextWrapping="Wrap" Text="Должность" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
+        <TextBlock Grid.Column="2" Margin="0,200,4,0" Grid.Row="4" TextWrapping="Wrap" Text="Адрес" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
+        <TextBlock Grid.Column="2" Margin="0,223,5,0" Grid.Row="4" TextWrapping="Wrap" Text="Телефонный номер" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
+        <TextBlock Grid.Column="2" Margin="0,247,5,0" Grid.Row="4" TextWrapping="Wrap" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"><Run Text="Стату"/><Run Text="с"/></TextBlock>
+        <TextBlock HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="Отделы" VerticalAlignment="Stretch" FontSize="16" Grid.RowSpan="1" Grid.Row="1"/>
+        <TextBlock Grid.Column="2" Margin="0,176,4,0" Grid.Row="4" TextWrapping="Wrap" Text="Зарплата" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
+        <TextBlock Grid.Column="2" Margin="0,26,3,0" Grid.Row="4" TextWrapping="Wrap" Text="Отдел" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
+        <ComboBox x:Name="Change_Employee_Department_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,26,0,0" Grid.Row="4" VerticalAlignment="Top" SelectionChanged="Change_Employee_Department_Box_SelectionChanged" Height="22"/>
+        <Button x:Name="editButton" Content="Edit" Grid.Column="4" HorizontalAlignment="Left" Margin="156,10,0,0" Grid.Row="5" VerticalAlignment="Top" Width="75" Click="editButton_Click" Height="22"/>
+        <Button x:Name="deleteButton" Content="Delete" Grid.Column="4" HorizontalAlignment="Left" Margin="76,10,0,0" Grid.Row="5" VerticalAlignment="Top" Width="75" Click="deleteButton_Click" Height="22"/>
+        <DatePicker x:Name="employmentDate_Picker" Grid.Column="4" HorizontalAlignment="Left" Margin="10,104,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" LostKeyboardFocus="employmentDate_Picker_LostKeyboardFocus"/>
+        <DatePicker x:Name="dateOfBirth_Picker" Grid.Column="4" HorizontalAlignment="Left" Margin="10,128,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" LostKeyboardFocus="dateOfBirth_Picker_LostKeyboardFocus"/>
+        <TextBox x:Name="full_Name_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,80,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" LostKeyboardFocus="full_Name_Box_LostKeyboardFocus"/>
+        <ComboBox x:Name="position_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,152,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" SelectionChanged="position_Combo_SelectionChanged"/>
+        <TextBox x:Name="salary_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,176,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" LostKeyboardFocus="salary_Box_LostKeyboardFocus"/>
+        <TextBox x:Name="address_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,200,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" LostKeyboardFocus="address_Box_LostKeyboardFocus"/>
+        <TextBox x:Name="phoneNumber_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,224,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" LostKeyboardFocus="phoneNumber_Box_LostKeyboardFocus"/>
+        <ComboBox x:Name="status_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,248,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" SelectionChanged="status_Combo_SelectionChanged"/>
+        <TextBlock Grid.Column="2" Margin="0,53,2,0" Grid.Row="4" TextWrapping="Wrap" Text="Пол" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
+        <ComboBox x:Name="gender_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,53,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" SelectionChanged="gender_Combo_SelectionChanged"/>
+
+    </Grid>
+</Window>
