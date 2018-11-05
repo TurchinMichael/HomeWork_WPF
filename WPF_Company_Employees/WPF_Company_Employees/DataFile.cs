@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Windows.Controls;
-using System.Collections.Generic;
 using System.Windows.Media.Imaging;
+using System.Collections.ObjectModel;
 
 namespace WPF_Company_Employees
 {
@@ -140,7 +139,7 @@ namespace WPF_Company_Employees
     public class Department
     {
         string _departmentName;
-        List<Employee> _employees = new List<Employee>();
+        ObservableCollection<Employee> _employees = new ObservableCollection<Employee>();
 
         /// <summary>
         /// Наменование данного отдела
@@ -150,14 +149,14 @@ namespace WPF_Company_Employees
         /// <summary>
         /// Сотрудники входящие в данный отдел
         /// </summary>
-        public List<Employee> Employees { get => _employees; set => _employees = value; }
+        public ObservableCollection<Employee> Employees { get => _employees; set => _employees = value; }
         
         /// <summary>
         /// Отдел
         /// </summary>
         /// <param name="departmentName">Наименование отдела</param>
         /// <param name="employees">Лист сотрудников, входящих в данный отдел</param>
-        public Department(string departmentName, List<Employee> employees)
+        public Department(string departmentName, ObservableCollection<Employee> employees)
         {
             _departmentName = departmentName;
             _employees = employees;
@@ -170,7 +169,7 @@ namespace WPF_Company_Employees
         public Department(string departmentName)
         {
             _departmentName = departmentName;
-            _employees = new List<Employee>();
+            _employees = new ObservableCollection<Employee>();
         }
 
         public Department()

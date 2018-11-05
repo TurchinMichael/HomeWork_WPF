@@ -27,7 +27,7 @@
         <TextBlock Margin="0,233,332,0" TextWrapping="Wrap" Text="Зарплата" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22" Grid.Column="1"/>
         <TextBlock Margin="0,83,334,0" TextWrapping="Wrap" Text="Отдел" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22" Grid.Column="1"/>
         <ComboBox x:Name="Departments_Combo" HorizontalAlignment="Left" Margin="198,83,0,0" VerticalAlignment="Top" Height="22" Grid.Column="1" MinWidth="100"/>
-        <Button x:Name="refreshButton" Content="Refresh" HorizontalAlignment="Left" Margin="249.915,8,0,0" VerticalAlignment="Top" Width="66" Height="22" Grid.Row="1" Grid.Column="1" Click="refreshButton_Click"/>
+        <Button x:Name="refreshButton" Content="Refresh" HorizontalAlignment="Left" Margin="249.915,8,0,0" VerticalAlignment="Top" Width="66" Height="22" Grid.Row="1" Grid.Column="1"/>
         <DatePicker x:Name="employmentDate_Picker" HorizontalAlignment="Left" Margin="198,161,0,0" VerticalAlignment="Top" Height="22" Grid.Column="1" MinWidth="100"/>
         <DatePicker x:Name="dateOfBirth_Picker" HorizontalAlignment="Left" Margin="198,185,0,0" VerticalAlignment="Top" Height="22" Grid.Column="1" MinWidth="100"/>
         <ComboBox x:Name="position_Combo" HorizontalAlignment="Left" Margin="198,209,0,0" VerticalAlignment="Top" Height="22" Grid.Column="1" MinWidth="100"/>
@@ -36,7 +36,7 @@
         <ComboBox x:Name="status_Combo" HorizontalAlignment="Left" Margin="198,305,0,0" VerticalAlignment="Top" Height="22" Grid.Column="1" MinWidth="100"/>
         <TextBlock Margin="0,110,333,0" TextWrapping="Wrap" Text="Пол" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22" Grid.Column="1"/>
         <ComboBox x:Name="gender_Combo" HorizontalAlignment="Left" Margin="198,110,0,0" VerticalAlignment="Top" Height="22" Grid.Column="1" MinWidth="100"/>
-        <Button x:Name="saveButton" Content="Save" HorizontalAlignment="Left" Margin="171.915,10,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Height="22" Grid.Column="1" Click="saveButton_Click"/>
+        <Button x:Name="saveButton" Content="Save" HorizontalAlignment="Left" Margin="171.915,10,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Height="22" Grid.Column="1"/>
         <TextBox x:Name="name_Box" Grid.Column="1" HorizontalAlignment="Left" Height="22" Margin="198,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="90" Width="51" Text="Имя"/>
         <TextBox x:Name="lastName_Box" Grid.Column="1" HorizontalAlignment="Left" Height="22" Margin="293,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="90" Width="51" Text="Фамилия"/>
         <TextBox x:Name="patronymic_Box_Copy" Grid.Column="1" HorizontalAlignment="Left" Height="22" Margin="388,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="90" Width="51" Text="Отчество"/>

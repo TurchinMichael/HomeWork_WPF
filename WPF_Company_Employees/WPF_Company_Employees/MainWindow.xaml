@@ -22,7 +22,7 @@
             <RowDefinition Height="314*"/>
             <RowDefinition Height="37*"/>
         </Grid.RowDefinitions>
-        <ListBox x:Name="employeesList" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch"  UseLayoutRounding="False" ScrollViewer.CanContentScroll="True" Grid.RowSpan="2" SelectionChanged="employeesList_SelectionChanged">
+        <ListBox x:Name="employeesList" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch"  UseLayoutRounding="False" ScrollViewer.CanContentScroll="True" Grid.RowSpan="2">
             <ListBox.LayoutTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -40,7 +40,7 @@
                 </TransformGroup>
             </ListBox.RenderTransform>
         </ListBox>
-        <ComboBox x:Name="departments_Combo" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Grid.Row="2" SelectionChanged="departments_Combo_SelectionChanged"/>
+        <ComboBox x:Name="departments_Combo" HorizontalAlignment="Stretch"  VerticalAlignment="Bottom" Grid.Row="2" Height="26"/>
         <Image x:Name="photoImage" Grid.Column="1"  HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Source="defaultPhoto.png"/>
         <TextBlock Grid.Column="2" Margin="0,80,4,0" Grid.Row="4" TextWrapping="Wrap" Text="ФИО" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
         <TextBlock Grid.Column="2" Margin="0,104,4,0" Grid.Row="4" TextWrapping="Wrap" Text="Дата приема на работу" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
@@ -52,12 +52,11 @@
         <TextBlock HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="Отделы" VerticalAlignment="Stretch" FontSize="16" Grid.Row="1"/>
         <TextBlock Grid.Column="2" Margin="0,176,4,0" Grid.Row="4" TextWrapping="Wrap" Text="Зарплата" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
         <TextBlock Grid.Column="2" Margin="0,26,3,0" Grid.Row="4" TextWrapping="Wrap" Text="Отдел" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
-        <ComboBox x:Name="Change_Employee_Department_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,26,0,0" Grid.Row="4" VerticalAlignment="Top" SelectionChanged="Change_Employee_Department_Box_SelectionChanged" Height="22" MinWidth="100" Width="100"/>
-        <Button x:Name="editButton" Content="Edit" Grid.Column="4" HorizontalAlignment="Left" Margin="225,5,0,0" Grid.Row="5" VerticalAlignment="Top" Width="66" Click="editButton_Click" Height="22"/>
-        <Button x:Name="deleteButton" Content="Delete" Grid.Column="4" HorizontalAlignment="Left" Margin="145,5,0,0" Grid.Row="5" VerticalAlignment="Top" Width="66" Click="deleteButton_Click" Height="22"/>
+        <ComboBox x:Name="Change_Employee_Department_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,26,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" MinWidth="100" Width="100"/>
+        <Button x:Name="deleteButton" Content="Delete" Grid.Column="4" HorizontalAlignment="Left" Margin="145,5,0,0" Grid.Row="5" VerticalAlignment="Top" Width="66" Height="22"/>
         <DatePicker x:Name="employmentDate_Picker" Grid.Column="4" HorizontalAlignment="Left" Margin="10,104,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" Width="100"/>
         <DatePicker x:Name="dateOfBirth_Picker" Grid.Column="4" HorizontalAlignment="Left" Margin="10,128,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" Width="100"/>
-        <TextBox x:Name="name_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,79,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="90" Width="51" Text="Имя"/>
+        <TextBox x:Name="name_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="105,77,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="90" Width="51" Text="Имя"/>
         <ComboBox x:Name="position_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,152,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" MinWidth="100" Width="100"/>
         <TextBox x:Name="salary_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,176,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="100" Width="100"/>
         <TextBox x:Name="county_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,200,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="60" Width="65" Text="Страна"/>
@@ -65,16 +64,17 @@
         <ComboBox x:Name="status_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,248,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" MinWidth="100" Width="100"/>
         <TextBlock Grid.Column="2" Margin="0,53,2,0" Grid.Row="4" TextWrapping="Wrap" Text="Пол" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
         <ComboBox x:Name="gender_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,53,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" MinWidth="100" Width="100"/>
-        <Button x:Name="addButton" Content="Add" Grid.Column="4" HorizontalAlignment="Left" Margin="67,5,0,0" Grid.Row="5" VerticalAlignment="Top" Width="66" Click="addButton_Click" Height="22"/>
-        <Button x:Name="addDepButton" Content="add" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Stretch" Width="41"  Click="addDepButton_Click"/>
-        <Button x:Name="applyButton" Content="Apply" Grid.Column="4" HorizontalAlignment="Left" Margin="225,282,0,0" Grid.Row="4" VerticalAlignment="Top" Width="66" Height="22" Click="applyButton_Click"/>
-        <TextBox x:Name="lastName_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="105,77,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="90" Width="51" Text="Фамилия"/>
-        <TextBox x:Name="patronymic_Box_Copy" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="200,77,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="90" Width="51" Text="Отчество"/>
+        <Button x:Name="addButton" Content="Add" Grid.Column="4" HorizontalAlignment="Left" Margin="67,5,0,0" Grid.Row="5" VerticalAlignment="Top" Width="66" Height="22"/>
+        <Button x:Name="addDepButton" Content="add" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Stretch" Width="41"  Margin="5,0,0,0"/>
+        <Button x:Name="applyButton" Content="Apply" Grid.Column="4" HorizontalAlignment="Left" Margin="225,5,0,0" Grid.Row="5" VerticalAlignment="Top" Width="66" Height="22"/>
+        <TextBox x:Name="lastName_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,77,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="90" Width="51" Text="Фамилия"/>
+        <TextBox x:Name="patronymic_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="200,77,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="90" Width="51" Text="Отчество"/>
         <TextBox x:Name="region_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="80,200,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="60" Width="65" Text="Регион"/>
         <TextBox x:Name="city_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="150,200,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="60" Width="65" Text="Город"/>
         <TextBox x:Name="street_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="220,200,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="60" Width="71" Text="Улица"/>
         <TextBox x:Name="streetNumber_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="204,227,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="30" Width="41" Text="№ Ул"/>
-        <TextBox x:Name="apartmentNumber_Box_Copy" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="250,227,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="30" Width="41" Text="№ Кв" RenderTransformOrigin="0.744,0.523"/>
+        <TextBox x:Name="apartmentNumber_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="250,227,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="30" Width="41" Text="№ Кв" RenderTransformOrigin="0.744,0.523"/>
+        <Button x:Name="editDepNameButton" Content="edit" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Stretch" Width="42" Margin="51,0,0,0"/>
 
     </Grid>
 </Window>

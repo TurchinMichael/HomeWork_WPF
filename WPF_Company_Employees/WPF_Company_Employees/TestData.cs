@@ -27,10 +27,10 @@ namespace WPF_Company_Employees
         /// <summary>
         /// Список сотрудников, выходящих в отдел
         /// </summary>
-        private List<Employee>
-            employeesForDepartment1 = new List<Employee>(),
-            employeesForDepartment2 = new List<Employee>(),
-            employeesForDepartment3 = new List<Employee>();
+        private ObservableCollection<Employee>
+            employeesForDepartment1 = new ObservableCollection<Employee>(),
+            employeesForDepartment2 = new ObservableCollection<Employee>(),
+            employeesForDepartment3 = new ObservableCollection<Employee>();
 
         /// <summary>
         /// Отдел
@@ -40,12 +40,12 @@ namespace WPF_Company_Employees
             department2 = new Department(),
             department3 = new Department();
 
-        List<Department> departments = new List<Department>();
+        ObservableCollection<Department> departments = new ObservableCollection<Department>();
 
         /// <summary>
         /// Список всех отделов
         /// </summary>
-        public List<Department> Departments
+        public ObservableCollection<Department> Departments
         {
             get => departments;
         }
@@ -64,9 +64,9 @@ namespace WPF_Company_Employees
             employee6 = new Employee(Gender.M, new Full_Name("Леорио", "Паладинайт"), DateTime.Today, new DateTime(1989, 12, 6), new Position(PositionName.Programmer, 125000), new Address("Россия", "Москва", "Москва", "Выставочная", 42, 35), "8-453-567-44-21", Status.Sick_Leave);
             employee7 = new Employee(Gender.M, new Full_Name("Айзек", "Кларк"), DateTime.Today, new DateTime(1986, 6, 27), new Position(PositionName.Programmer, 125000), new Address("Россия", "Москва", "Москва", "Сталинская", 65, 3), "8-965-374-35-87", Status.Work);
 
-            employeesForDepartment1 = new List<Employee>() { employee1, employee2, employee3 };
-            employeesForDepartment2 = new List<Employee>() { employee6, employee7, employee4 };
-            employeesForDepartment3 = new List<Employee>() { employee5 };
+            employeesForDepartment1 = new ObservableCollection<Employee>() { employee1, employee2, employee3 };
+            employeesForDepartment2 = new ObservableCollection<Employee>() { employee6, employee7, employee4 };
+            employeesForDepartment3 = new ObservableCollection<Employee>() { employee5 };
 
             departments.Add(new Department("First Department", employeesForDepartment1));
             departments.Add(new Department("Second Department", employeesForDepartment2));

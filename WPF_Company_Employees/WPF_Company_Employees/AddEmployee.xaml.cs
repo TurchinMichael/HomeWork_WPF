@@ -1,122 +1,153 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace WPF_Company_Employees
 {
     /// <summary>
     /// Логика взаимодействия для AddEmployee.xaml
     /// </summary>
-    public partial class AddEmployee : Window
+    public partial class AddEmployee : Window, IViewForNewEmployee
     {
-        Test _test;
-        MainWindow _owner;
+        Presenter p;
+
+        /// <summary>
+        /// Класс добавления сотрудника
+        /// </summary>
         public AddEmployee()
         {
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// Метод получающий данные из родительского окна
-        /// </summary>
-        /// <param name="test">Тестовые данные</param>
-        /// <param name="owner">Родительское окно</param>
-        public void GetDepatments(Test test, MainWindow owner) // не очень нравится способ передачи данных между окнами, но другого не придумал
-        {
-            _owner = owner;
-            _test = test;
-            fillInformation();
-        }
-
-        /// <summary>
-        /// Метод заполняющий известные окна
-        /// </summary>
-        void fillInformation()
-        {
-            Departments_Combo.Items.Clear();
-            position_Combo.Items.Clear();
-            status_Combo.Items.Clear();
-            gender_Combo.Items.Clear();
-
-            for (int i = 0; i < _test.Departments.Count; i++)
-            {
-                Departments_Combo.Items.Add(_test.Departments[i].DepartmentName);
-            }
+            gender_Combo.ItemsSource = Enum.GetValues(typeof(Gender));
             position_Combo.ItemsSource = Enum.GetValues(typeof(PositionName));
             status_Combo.ItemsSource = Enum.GetValues(typeof(Status));
-            gender_Combo.ItemsSource = Enum.GetValues(typeof(Gender));
-        }
-        
-        /// <summary>
-        /// Метод вызывающийся при срабатывании события нажатия на кнопку "Save"
-        /// </summary>
-        private void saveButton_Click(object sender, RoutedEventArgs e)
-        {
-            SaveEmployee();
-            MessageBox.Show("Сотрудник успешно добавлен");
-            Refresh();
-            _owner.fillEmployeesList();
+            refreshButton.Click += delegate { Refresh(); };
+            saveButton.Click += delegate { p.SaveNewEmployee(); MessageBox.Show("Сотрудник успешно добавлен"); p.fillEmployeesList(); };
         }
 
         /// <summary>
-        /// Метод сохраняющий сотрудника
+        /// Метод получающий данные из презентера
         /// </summary>
-        void SaveEmployee()
+        public void GetDepatments(Presenter presenter)
         {
-            Full_Name tempName;
-
-            if (patronymic_Box_Copy.Text == "Отчество" || patronymic_Box_Copy.Text == "")
-            {
-                tempName
-                    = new Full_Name(
-                        name_Box.Text,
-                        lastName_Box.Text);
-            }
-            else
-            {
-                tempName
-                    = new Full_Name(
-                        name_Box.Text,
-                        lastName_Box.Text,
-                        patronymic_Box_Copy.Text);
-            }
-
-            _test.AddNewEmployee(
-                Departments_Combo.SelectedIndex,
-                new Employee(
-                    (Gender)gender_Combo.SelectedIndex,
-                    tempName,
-                    employmentDate_Picker.SelectedDate.Value.Date,
-                    dateOfBirth_Picker.SelectedDate.Value,
-                    new Position((PositionName)position_Combo.SelectedIndex, decimal.Parse(salary_Box.Text)),
-                    new Address(
-                        county_Box.Text,
-                        region_Box.Text,
-                        city_Box.Text,
-                        street_Box.Text,
-                        int.Parse(streetNumber_Box.Text),
-                        int.Parse(apartmentNumber_Box_Copy.Text)),
-                    phoneNumber_Box.Text,
-                    (Status)status_Combo.SelectedIndex));
+            p = presenter;
+            p.fillAddEmployeeDepartmentCombo();
         }
 
         /// <summary>
-        /// Метод вызывающийся при срабатывании события нажатия на кнопку "Refresh"
+        /// Метод для назначения родительской формы
         /// </summary>
-        private void refreshButton_Click(object sender, RoutedEventArgs e)
+        /// <param name="owner">Родительская форма</param>
+        public new void Owner(Window owner)
         {
-            Refresh();
+            (this as Window).Owner = owner;
         }
+
+        /// <summary>
+        /// Отображение формы
+        /// </summary>
+        public new void Show()
+        {
+            (this as Window).Show();
+
+        }
+
+
+        #region View
+
+        public IEnumerable<string> departmentList
+        {
+            get => Departments_Combo.ItemsSource as IEnumerable<string>;
+            set => Departments_Combo.ItemsSource = value;
+        }
+
+        public int SelectedDepartment
+        {
+            get => Departments_Combo.SelectedIndex;
+            set => Departments_Combo.SelectedIndex = value;
+        }
+
+        public int GenderEmployee
+        {
+            get => gender_Combo.SelectedIndex;
+            set => gender_Combo.SelectedIndex = value;
+        }
+        public string FirstName
+        {
+            get => name_Box.Text;
+            set => name_Box.Text = value;
+        }
+        public string LastName
+        {
+            get => lastName_Box.Text;
+            set => lastName_Box.Text = value;
+        }
+        public string Patronymic
+        {
+            get => patronymic_Box_Copy.Text;
+            set => patronymic_Box_Copy.Text = value;
+        }
+        public DateTime EmploymentDate
+        {
+            get => employmentDate_Picker.SelectedDate.Value;
+            set => employmentDate_Picker.SelectedDate = value;
+        }
+        public DateTime DateOfBirth
+        {
+            get => dateOfBirth_Picker.SelectedDate.Value;
+            set => dateOfBirth_Picker.SelectedDate = value;
+        }
+        public int PositionNameEnum
+        {
+            get => position_Combo.SelectedIndex;
+            set => position_Combo.SelectedIndex = value;
+        }
+        public decimal Salary
+        {
+            get => decimal.Parse(salary_Box.Text);
+            set => salary_Box.Text = value.ToString();
+        }
+        public string County
+        {
+            get => county_Box.Text;
+            set => county_Box.Text = value;
+        }
+        public string Region
+        {
+            get => region_Box.Text;
+            set => region_Box.Text = value;
+        }
+        public string City
+        {
+            get => city_Box.Text;
+            set => city_Box.Text = value;
+        }
+        public string Street
+        {
+            get => street_Box.Text;
+            set => street_Box.Text = value;
+        }
+        public int StreetNumber
+        {
+            get => int.Parse(streetNumber_Box.Text);
+            set => streetNumber_Box.Text = value.ToString();
+        }
+        public int ApartmentNumber
+        {
+            get => int.Parse(apartmentNumber_Box_Copy.Text);
+            set => apartmentNumber_Box_Copy.Text = value.ToString();
+        }
+        public string PhoneNumber
+        {
+            get => phoneNumber_Box.Text;
+            set => phoneNumber_Box.Text = value;
+        }
+        public int StatusNow
+        {
+            get => status_Combo.SelectedIndex;
+            set => status_Combo.SelectedIndex = value;
+        }
+
+        #endregion
 
         /// <summary>
         /// Метод очищающий окна
