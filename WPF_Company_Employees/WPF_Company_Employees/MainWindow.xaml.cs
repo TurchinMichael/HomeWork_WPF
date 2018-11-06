@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Data;
 
 namespace WPF_Company_Employees
 {
@@ -9,7 +10,6 @@ namespace WPF_Company_Employees
     /// </summary>
     public partial class MainWindow : Window, IView
     {
-        //public Test test = new Test();
         Presenter p;
 
         public MainWindow()
@@ -18,11 +18,15 @@ namespace WPF_Company_Employees
             InitializeComponent();
             p = new Presenter(this);
 
-            // заполнение готовой информации
-            gender_Combo.ItemsSource = Enum.GetValues(typeof(Gender));
-            position_Combo.ItemsSource = Enum.GetValues(typeof(PositionName));
-            status_Combo.ItemsSource = Enum.GetValues(typeof(Status));
-            p.fillDepartmentCombo();
+            #region ToDo
+            mainGrid.DataContext = p; // корректно отображает только при инициализации, изменения списка департаментов не отображает, после добавления нового
+            #endregion
+
+            // заполнение заранее известной информацией (для открывающихся Combo_Box)
+
+            gender_Combo.ItemsSource = Enum.GetValues(typeof(Gender));  /* в теории можно избежать привязкой*/
+            position_Combo.ItemsSource = Enum.GetValues(typeof(PositionName));  /* в теории можно избежать привязкой*/
+            status_Combo.ItemsSource = Enum.GetValues(typeof(Status));  /* в теории можно избежать привязкой*/
             Change_Employee_Department_Combo.ItemsSource = departments_Combo.Items;
 
             // events
@@ -31,16 +35,11 @@ namespace WPF_Company_Employees
             addButton.Click += delegate { p.AddEmployeeFormCall(); };
             deleteButton.Click += delegate { p.DeleteEmployee(); };
             applyButton.Click += delegate { p.ChangeInformation();  };
-            departments_Combo.SelectionChanged += delegate { p.fillEmployeesList(); };
+            departments_Combo.SelectionChanged += delegate { p.fillEmployeesList(); }; 
             employeesList.SelectionChanged += delegate { p.fillEmployeeInfo(); };
             Change_Employee_Department_Combo.SelectionChanged += delegate { p.Change_Employee_Department(); };
         }
-
-
-
-        // ===================
-
-
+        
         #region IView
 
         public bool departments_ComboIsEditable
@@ -160,10 +159,5 @@ namespace WPF_Company_Employees
         }
 
         #endregion
-
-        private void addButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

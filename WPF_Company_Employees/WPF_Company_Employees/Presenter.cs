@@ -5,7 +5,7 @@ namespace WPF_Company_Employees
 {
     public class Presenter
     {
-        private Test test;
+        public Test test;
         private IView view;
         private IViewForNewEmployee addNewEmployee;
         private IViewNewDepartment addNewDepartment;
@@ -14,20 +14,24 @@ namespace WPF_Company_Employees
         {
             this.view = View;
             test = new Test();
-            
-            // вся инициализация при запуске
-            test.CreateTestData();
         }
 
-        public ObservableCollection<string> departmentsNames()
+        /// <summary>
+        /// Заполнение списка departmentsNames именами отделов
+        /// </summary>
+        /// <returns></returns>
+        public ObservableCollection<string> departmentsNames
         {
-            ObservableCollection<string> temp = new ObservableCollection<string>();
-
-            foreach(var obj in test.Departments)
+            get
             {
-                temp.Add(obj.DepartmentName);
+                ObservableCollection<string> temp = new ObservableCollection<string>();
+
+                foreach (var obj in test.Departments)
+                {
+                    temp.Add(obj.DepartmentName);
+                }
+                return temp;
             }
-            return temp;
         }
 
         /// <summary>
@@ -35,7 +39,7 @@ namespace WPF_Company_Employees
         /// </summary>
         public void fillDepartmentCombo()
         {
-            view.departmentList = departmentsNames();
+            view.departmentList = departmentsNames;
         }
 
         /// <summary>
@@ -57,7 +61,7 @@ namespace WPF_Company_Employees
         
         /// <summary>
         /// Метод вызываемый при смене отдела в окне сотрудника
-        /// Метод переносящий сотрудника между отделами
+        /// Метод переводящий сотрудника между отделами
         /// </summary>
         public void Change_Employee_Department()
         {
@@ -111,15 +115,13 @@ namespace WPF_Company_Employees
 
             if (view.Patronymic == "Отчество" || view.Patronymic == "")
             {
-                tempName
-                    = new Full_Name(
+                tempName = new Full_Name(
                         view.FirstName,
                         view.LastName);
             }
             else
             {
-                tempName
-                    = new Full_Name(
+                tempName = new Full_Name(
                         view.FirstName,
                         view.LastName, 
                         view.Patronymic);
@@ -158,14 +160,14 @@ namespace WPF_Company_Employees
             else
             {
                 test.ChangeDepartmentName(departmentNumber, view.DepartmentComboText);
-                view.departmentList = departmentsNames();
+                view.departmentList = departmentsNames;
                 recall();
                 view.departments_ComboIsEditable = !view.departments_ComboIsEditable;
             }
         }
 
         /// <summary>
-        /// Метод создающий окно добавления нового отдела, и передающий туда необходимую информацию
+        /// Метод создающий окно добавления нового отдела
         /// </summary>
         public void AddDepartmentFormCall()
         {
@@ -181,10 +183,12 @@ namespace WPF_Company_Employees
         public void AddNewDepartment()
         {
             test.AddNewDepartment(addNewDepartment.NewDepName);
+            System.Console.WriteLine(departmentsNames);
+            fillDepartmentCombo(); /* в теории можно избежать привязкой*/
         }
         
         /// <summary>
-        /// Метод создающий окно добавления нового сотрудника, и передающий туда необходимую информацию
+        /// Метод создающий окно добавления нового сотрудника
         /// </summary>
         public void AddEmployeeFormCall()
         {
@@ -199,16 +203,7 @@ namespace WPF_Company_Employees
         /// </summary>
         public void fillAddEmployeeDepartmentCombo()
         {
-            addNewEmployee.departmentList = departmentsNames();
-        }
-
-        /// <summary>
-        /// Метод вызывающийся удаляющий сотрудника
-        /// </summary>
-        public void DeleteEmployee()
-        {
-            test.DeleteEmployee(view.SelectedDepartment, view.SelectedEmployee);
-            fillEmployeesList();
+            addNewEmployee.departmentList = departmentsNames;
         }
 
         /// <summary>
@@ -233,8 +228,7 @@ namespace WPF_Company_Employees
                         addNewEmployee.LastName,
                         addNewEmployee.Patronymic);
             }
-
-
+            
             test.AddNewEmployee(addNewEmployee.SelectedDepartment,
                 new Employee(
                     (Gender)addNewEmployee.GenderEmployee,
@@ -251,9 +245,19 @@ namespace WPF_Company_Employees
                         addNewEmployee.ApartmentNumber),
                     addNewEmployee.PhoneNumber,
                     (Status)addNewEmployee.StatusNow));
+
+            fillEmployeesList();  /* в теории можно избежать привязкой*/
         }
 
-     
+        /// <summary>
+        /// Метод удаляющий выбранного сотрудника
+        /// </summary>
+        public void DeleteEmployee()
+        {
+            test.DeleteEmployee(view.SelectedDepartment, view.SelectedEmployee);
+            fillEmployeesList();  /* в теории можно избежать привязкой*/
+        }
+             
         int
             departmentNumber,
             employeeNumber;
@@ -263,7 +267,7 @@ namespace WPF_Company_Employees
         ///// </summary>
         void rememberCurrentSelected()
         {
-            if (view.SelectedDepartment >= 0 /*&& view.SelectedEmployee >= 0*/)
+            if (view.SelectedDepartment >= 0 && view.SelectedEmployee >= 0)
             {
                 departmentNumber = view.SelectedDepartment;
                 employeeNumber = view.SelectedEmployee;

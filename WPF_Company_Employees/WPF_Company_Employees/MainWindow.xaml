@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF_Company_Employees"
         mc:Ignorable="d"
         Title="Company_Employees" Height="450" Width="800">
-    <Grid>
+    <Grid x:Name="mainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="141*"/>
             <ColumnDefinition Width="170*"/>
@@ -40,7 +40,7 @@
                 </TransformGroup>
             </ListBox.RenderTransform>
         </ListBox>
-        <ComboBox x:Name="departments_Combo" HorizontalAlignment="Stretch"  VerticalAlignment="Bottom" Grid.Row="2" Height="26"/>
+        <ComboBox x:Name="departments_Combo" HorizontalAlignment="Stretch"  VerticalAlignment="Bottom" Grid.Row="2" Height="26" ItemsSource="{Binding departmentsNames}" />
         <Image x:Name="photoImage" Grid.Column="1"  HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Source="defaultPhoto.png"/>
         <TextBlock Grid.Column="2" Margin="0,80,4,0" Grid.Row="4" TextWrapping="Wrap" Text="ФИО" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
         <TextBlock Grid.Column="2" Margin="0,104,4,0" Grid.Row="4" TextWrapping="Wrap" Text="Дата приема на работу" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
@@ -63,7 +63,7 @@
         <TextBox x:Name="phoneNumber_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,224,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="100" Width="100"/>
         <ComboBox x:Name="status_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,248,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" MinWidth="100" Width="100"/>
         <TextBlock Grid.Column="2" Margin="0,53,2,0" Grid.Row="4" TextWrapping="Wrap" Text="Пол" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
-        <ComboBox x:Name="gender_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,53,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" MinWidth="100" Width="100"/>
+        <ComboBox x:Name="gender_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,53,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" MinWidth="100" Width="100" ItemsSource="{Binding Gender}" />
         <Button x:Name="addButton" Content="Add" Grid.Column="4" HorizontalAlignment="Left" Margin="67,5,0,0" Grid.Row="5" VerticalAlignment="Top" Width="66" Height="22"/>
         <Button x:Name="addDepButton" Content="add" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Stretch" Width="41"  Margin="5,0,0,0"/>
         <Button x:Name="applyButton" Content="Apply" Grid.Column="4" HorizontalAlignment="Left" Margin="225,5,0,0" Grid.Row="5" VerticalAlignment="Top" Width="66" Height="22"/>

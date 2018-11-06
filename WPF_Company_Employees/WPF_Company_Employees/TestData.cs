@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace WPF_Company_Employees
 {
@@ -11,6 +12,11 @@ namespace WPF_Company_Employees
     {
         #region Variables
         ObservableCollection<string> employeesListString = new ObservableCollection<string>();
+
+        public Test()
+        {
+            CreateTestData();
+        }
 
         /// <summary>
         /// Сотрудник
@@ -41,7 +47,7 @@ namespace WPF_Company_Employees
             department3 = new Department();
 
         ObservableCollection<Department> departments = new ObservableCollection<Department>();
-
+                
         /// <summary>
         /// Список всех отделов
         /// </summary>

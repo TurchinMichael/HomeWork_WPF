@@ -14,21 +14,16 @@ namespace WPF_Company_Employees
         /// </summary>
         public AddNewDep()
         {
+            // инициализация
             InitializeComponent();
-
-            addNewDepButton.Click += delegate {
-                p.AddNewDepartment();
-                MessageBox.Show("Отдел успешно добавлен");
-                p.fillDepartmentCombo();
-                nameNewDepartment_Box.Clear();
-            };
-
-            refreshDepButton.Click
-                 += delegate { nameNewDepartment_Box.Clear(); };
+            
+            // events
+            addNewDepButton.Click += delegate {p.AddNewDepartment(); MessageBox.Show("Отдел успешно добавлен"); nameNewDepartment_Box.Clear(); };
+            refreshDepButton.Click += delegate { nameNewDepartment_Box.Clear(); };
         }
 
         /// <summary>
-        /// Имя мепартамента
+        /// Имя нового отдела
         /// </summary>
         public string NewDepName
         {

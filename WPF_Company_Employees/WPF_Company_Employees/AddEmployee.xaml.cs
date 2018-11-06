@@ -16,12 +16,17 @@ namespace WPF_Company_Employees
         /// </summary>
         public AddEmployee()
         {
+            // инициализация
             InitializeComponent();
+
+            // заполнение заранее известной информацией (для открывающихся Combo_Box)
             gender_Combo.ItemsSource = Enum.GetValues(typeof(Gender));
             position_Combo.ItemsSource = Enum.GetValues(typeof(PositionName));
             status_Combo.ItemsSource = Enum.GetValues(typeof(Status));
+
+            // events
             refreshButton.Click += delegate { Refresh(); };
-            saveButton.Click += delegate { p.SaveNewEmployee(); MessageBox.Show("Сотрудник успешно добавлен"); p.fillEmployeesList(); };
+            saveButton.Click += delegate { p.SaveNewEmployee(); MessageBox.Show("Сотрудник успешно добавлен");};
         }
 
         /// <summary>
@@ -49,8 +54,7 @@ namespace WPF_Company_Employees
         {
             (this as Window).Show();
         }
-
-
+        
         #region IViewForNewEmployee
 
         public IEnumerable<string> departmentList
