@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-
+using System.ComponentModel;
 
 namespace WPF_Company_Employees
 {
-    public class Presenter
+    public class Presenter : INotifyPropertyChanged
     {
         public Test test;
         private IView view;
@@ -30,6 +30,9 @@ namespace WPF_Company_Employees
                 {
                     temp.Add(obj.DepartmentName);
                 }
+                //this.NotifyPropertyChanged("departmentsNames");
+                NotifyPropertyChanged(nameof(this.departmentsNames));
+
                 return temp;
             }
         }
@@ -184,7 +187,7 @@ namespace WPF_Company_Employees
         {
             test.AddNewDepartment(addNewDepartment.NewDepName);
             System.Console.WriteLine(departmentsNames);
-            fillDepartmentCombo(); /* в теории можно избежать привязкой*/
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.departmentsNames)));
         }
         
         /// <summary>
@@ -203,7 +206,7 @@ namespace WPF_Company_Employees
         /// </summary>
         public void fillAddEmployeeDepartmentCombo()
         {
-            addNewEmployee.departmentList = departmentsNames;
+            addNewEmployee.departmentList = departmentsNames;            
         }
 
         /// <summary>
@@ -255,6 +258,8 @@ namespace WPF_Company_Employees
         public void DeleteEmployee()
         {
             test.DeleteEmployee(view.SelectedDepartment, view.SelectedEmployee);
+
+
             fillEmployeesList();  /* в теории можно избежать привязкой*/
         }
              
@@ -262,6 +267,14 @@ namespace WPF_Company_Employees
             departmentNumber,
             employeeNumber;
 
+        public event PropertyChangedEventHandler PropertyChanged; // INotifyPropertyChanged
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            if (this.PropertyChanged == null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
+        
         ///// <summary>
         ///// Метод запоминающий положение выбора пользователя
         ///// </summary>

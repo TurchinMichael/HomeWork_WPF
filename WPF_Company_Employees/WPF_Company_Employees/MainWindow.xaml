@@ -22,25 +22,7 @@
             <RowDefinition Height="314*"/>
             <RowDefinition Height="37*"/>
         </Grid.RowDefinitions>
-        <ListBox x:Name="employeesList" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch"  UseLayoutRounding="False" ScrollViewer.CanContentScroll="True" Grid.RowSpan="2">
-            <ListBox.LayoutTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </ListBox.LayoutTransform>
-            <ListBox.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </ListBox.RenderTransform>
-        </ListBox>
-        <ComboBox x:Name="departments_Combo" HorizontalAlignment="Stretch"  VerticalAlignment="Bottom" Grid.Row="2" Height="26" ItemsSource="{Binding departmentsNames}" />
+        <ComboBox x:Name="departments_Combo" HorizontalAlignment="Stretch"  VerticalAlignment="Bottom" Grid.Row="2" Height="26" ItemsSource="{Binding departmentsNames}"/>
         <Image x:Name="photoImage" Grid.Column="1"  HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Source="defaultPhoto.png"/>
         <TextBlock Grid.Column="2" Margin="0,80,4,0" Grid.Row="4" TextWrapping="Wrap" Text="ФИО" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
         <TextBlock Grid.Column="2" Margin="0,104,4,0" Grid.Row="4" TextWrapping="Wrap" Text="Дата приема на работу" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" Height="22"/>
@@ -75,6 +57,13 @@
         <TextBox x:Name="streetNumber_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="204,227,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="30" Width="41" Text="№ Ул"/>
         <TextBox x:Name="apartmentNumber_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="250,227,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="30" Width="41" Text="№ Кв" RenderTransformOrigin="0.744,0.523"/>
         <Button x:Name="editDepNameButton" Content="edit" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Stretch" Width="42" Margin="51,0,0,0"/>
+        <ListView x:Name="employeesView" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
     </Grid>
 </Window>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace WPF_Company_Employees
@@ -19,11 +20,12 @@ namespace WPF_Company_Employees
             p = new Presenter(this);
 
             #region ToDo
+
             mainGrid.DataContext = p; // корректно отображает только при инициализации, изменения списка департаментов не отображает, после добавления нового
+           
             #endregion
 
             // заполнение заранее известной информацией (для открывающихся Combo_Box)
-
             gender_Combo.ItemsSource = Enum.GetValues(typeof(Gender));  /* в теории можно избежать привязкой*/
             position_Combo.ItemsSource = Enum.GetValues(typeof(PositionName));  /* в теории можно избежать привязкой*/
             status_Combo.ItemsSource = Enum.GetValues(typeof(Status));  /* в теории можно избежать привязкой*/
@@ -35,8 +37,8 @@ namespace WPF_Company_Employees
             addButton.Click += delegate { p.AddEmployeeFormCall(); };
             deleteButton.Click += delegate { p.DeleteEmployee(); };
             applyButton.Click += delegate { p.ChangeInformation();  };
-            departments_Combo.SelectionChanged += delegate { p.fillEmployeesList(); }; 
-            employeesList.SelectionChanged += delegate { p.fillEmployeeInfo(); };
+            departments_Combo.SelectionChanged += delegate { p.fillEmployeesList(); };
+            employeesView.SelectionChanged += delegate { p.fillEmployeeInfo(); };
             Change_Employee_Department_Combo.SelectionChanged += delegate { p.Change_Employee_Department(); };
         }
         
@@ -59,8 +61,8 @@ namespace WPF_Company_Employees
         }
         public int SelectedEmployee
         {
-            get => employeesList.SelectedIndex;
-            set => employeesList.SelectedIndex = value;
+            get => employeesView.SelectedIndex;
+            set => employeesView.SelectedIndex = value;
         }
         public int GenderEmployee
         {
@@ -144,8 +146,8 @@ namespace WPF_Company_Employees
         }
         public IEnumerable<string> employeeList
         {
-            get => employeesList.ItemsSource as IEnumerable<string>;
-            set => employeesList.ItemsSource = value;
+            get => employeesView.ItemsSource as IEnumerable<string>;
+            set => employeesView.ItemsSource = value;
         }
         public IEnumerable<string> departmentList
         {
