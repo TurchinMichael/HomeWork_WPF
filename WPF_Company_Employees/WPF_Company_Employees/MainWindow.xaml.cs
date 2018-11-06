@@ -20,9 +20,7 @@ namespace WPF_Company_Employees
             p = new Presenter(this);
 
             #region ToDo
-
-            mainGrid.DataContext = p; // корректно отображает только при инициализации, изменения списка департаментов не отображает, после добавления нового
-           
+            mainGrid.DataContext = p;           
             #endregion
 
             // заполнение заранее известной информацией (для открывающихся Combo_Box)
