@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="IViewForNewEmployee.cs" />
     <Compile Include="IView.cs" />
+    <Compile Include="IViewNewDepartment.cs" />
     <Compile Include="Presenter.cs" />
     <Compile Include="TestData.cs" />
     <Compile Include="AddNewDep.xaml.cs">

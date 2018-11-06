@@ -99,7 +99,7 @@ namespace WPF_Company_Employees
         /// <summary>
         /// Получение презентера
         /// </summary>
-        /// <param name="presenter"></param>
+        /// <param name="presenter">Презентер</param>
         void GetDepatments(Presenter presenter);
 
         /// <summary>

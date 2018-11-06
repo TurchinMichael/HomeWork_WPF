@@ -5,7 +5,7 @@ namespace WPF_Company_Employees
     /// <summary>
     /// Логика взаимодействия для AddNewDepartment.xaml
     /// </summary>
-    public partial class AddNewDep : Window
+    public partial class AddNewDep : Window, IViewNewDepartment
     {
         Presenter p;
 
@@ -42,6 +42,23 @@ namespace WPF_Company_Employees
         public void GetDepatments(Presenter presenter)
         {
             p = presenter;
+        }
+
+        /// <summary>
+        /// Метод для назначения родительской формы
+        /// </summary>
+        /// <param name="owner">Родительская форма</param>
+        public new void Owner(Window owner)
+        {
+            (this as Window).Owner = owner;
+        }
+
+        /// <summary>
+        /// Отображение формы
+        /// </summary>
+        public new void Show()
+        {
+            (this as Window).Show();
         }
     }
 }

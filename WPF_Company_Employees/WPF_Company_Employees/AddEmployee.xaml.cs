@@ -48,11 +48,10 @@ namespace WPF_Company_Employees
         public new void Show()
         {
             (this as Window).Show();
-
         }
 
 
-        #region View
+        #region IViewForNewEmployee
 
         public IEnumerable<string> departmentList
         {

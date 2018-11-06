@@ -3,13 +3,12 @@
 
 namespace WPF_Company_Employees
 {
-    public class Presenter // весь код из окна
+    public class Presenter
     {
-        public Test test;
+        private Test test;
         private IView view;
-        IViewForNewEmployee addNewEmployee;
-        //private AddNewDepartment addNewDepartment;
-        AddNewDep addNewDepartment = new AddNewDep();
+        private IViewForNewEmployee addNewEmployee;
+        private IViewNewDepartment addNewDepartment;
 
         public Presenter(IView View)
         {
@@ -144,29 +143,24 @@ namespace WPF_Company_Employees
                         view.ApartmentNumber),
                         view.PhoneNumber,
                         (Status)view.StatusNow));
-
-            //fillEmployeesList();
-            //fillEmployeeInfo();
-            //recall();
         }
 
-        bool first = true;
         /// <summary>
         /// Редактирование наименования отдела
         /// </summary>
         public void editDepartmentName()
         {
-            if (first)
+            if (!view.departments_ComboIsEditable)
             {
                 rememberCurrentSelected();
-                first = !first;
+                view.departments_ComboIsEditable = !view.departments_ComboIsEditable;
             }
             else
             {
                 test.ChangeDepartmentName(departmentNumber, view.DepartmentComboText);
                 view.departmentList = departmentsNames();
                 recall();
-                first = !first;
+                view.departments_ComboIsEditable = !view.departments_ComboIsEditable;
             }
         }
 
@@ -177,7 +171,7 @@ namespace WPF_Company_Employees
         {
             addNewDepartment = new AddNewDep();
             addNewDepartment.GetDepatments(this);
-            addNewDepartment.Owner = view as MainWindow;
+            addNewDepartment.Owner(view as MainWindow);
             addNewDepartment.Show();
         }
 

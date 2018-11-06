@@ -6,6 +6,11 @@ namespace WPF_Company_Employees
     public interface IView // все поля из окна
     {
         /// <summary>
+        /// Возможность изменять наименование отдела
+        /// </summary>
+        bool departments_ComboIsEditable { get; set; }
+
+        /// <summary>
         /// Список отделов
         /// </summary>
         IEnumerable<string> departmentList { get; set; }

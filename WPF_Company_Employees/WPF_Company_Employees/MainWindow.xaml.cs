@@ -27,13 +27,12 @@ namespace WPF_Company_Employees
 
             // events
             addDepButton.Click += delegate { p.AddDepartmentFormCall(); };
-            editDepNameButton.Click += delegate {departments_Combo.IsEditable = !departments_Combo.IsEditable; // иначе надо в презентер комбобокс отправлять, или его bool..
-                p.editDepartmentName();};
+            editDepNameButton.Click += delegate { p.editDepartmentName(); };
             addButton.Click += delegate { p.AddEmployeeFormCall(); };
             deleteButton.Click += delegate { p.DeleteEmployee(); };
             applyButton.Click += delegate { p.ChangeInformation();  };
-            employeesList.SelectionChanged += delegate { p.fillEmployeeInfo(); };
             departments_Combo.SelectionChanged += delegate { p.fillEmployeesList(); };
+            employeesList.SelectionChanged += delegate { p.fillEmployeeInfo(); };
             Change_Employee_Department_Combo.SelectionChanged += delegate { p.Change_Employee_Department(); };
         }
 
@@ -44,6 +43,11 @@ namespace WPF_Company_Employees
 
         #region IView
 
+        public bool departments_ComboIsEditable
+        {
+            get => departments_Combo.IsEditable;
+            set => departments_Combo.IsEditable = value;
+        }
         public int Selected_Change_Employee_Department_Combo
         {
             get => Change_Employee_Department_Combo.SelectedIndex;
@@ -139,7 +143,6 @@ namespace WPF_Company_Employees
             get => status_Combo.SelectedIndex;
             set => status_Combo.SelectedIndex = value;
         }
-
         public IEnumerable<string> employeeList
         {
             get => employeesList.ItemsSource as IEnumerable<string>;
@@ -150,7 +153,6 @@ namespace WPF_Company_Employees
             get => departments_Combo.ItemsSource as IEnumerable<string>;
             set => departments_Combo.ItemsSource = value;
         }
-
         public string DepartmentComboText
         {
             get => departments_Combo.Text;
