@@ -40,7 +40,7 @@
         <DatePicker x:Name="dateOfBirth_Picker" Grid.Column="4" HorizontalAlignment="Left" Margin="10,128,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" Width="100"/>
         <TextBox x:Name="name_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="105,77,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="90" Width="51" Text="Имя"/>
         <ComboBox x:Name="position_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,152,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" MinWidth="100" Width="100"/>
-        <TextBox x:Name="salary_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,176,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="100" Width="100"/>
+        <TextBox x:Name="salary_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,176,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="100" Width="100" IsEnabled="False"/>
         <TextBox x:Name="county_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,200,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="60" Width="65" Text="Страна"/>
         <TextBox x:Name="phoneNumber_Box" Grid.Column="4" HorizontalAlignment="Left" Height="22" Margin="10,224,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="100" Width="100"/>
         <ComboBox x:Name="status_Combo" Grid.Column="4" HorizontalAlignment="Left" Margin="10,248,0,0" Grid.Row="4" VerticalAlignment="Top" Height="22" MinWidth="100" Width="100"/>
@@ -64,6 +64,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button x:Name="testButton" Content="TESTBUTTON" Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Stretch" Width="81" Margin="12,0,0,0"/>
 
     </Grid>
 </Window>

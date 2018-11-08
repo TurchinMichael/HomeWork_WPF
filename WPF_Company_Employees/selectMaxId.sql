@@ -1,0 +1,1 @@
+﻿SELECT max(Id) FROM FullName

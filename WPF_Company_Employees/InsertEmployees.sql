@@ -1,0 +1,7 @@
+﻿INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES (1, 50, '2018-08-11', '1993-8-21',  1, 1, '8-963-777-39-97', 1)
+INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES (1, 51, '2018-08-11', '1983-5-8',  2, 2, '8-634-434-43-64', 7)
+INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES (1, 52, '2018-08-11', '1973-4-17',  5, 3, '8-433-450-75-54', 1)
+INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES (2, 53, '2018-08-11', '1981-3-1',  3, 4, '8-943-143-32-46', 2)
+INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES (2, 54, '2018-08-11', '1991-3-11',  4, 5, '8-454-745-54-64', 1)
+INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES (1, 55, '2018-08-11', '1989-12-6',  1, 6, '8-453-567-44-21', 4)
+INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES (1, 56, '2018-08-11', '1986-6-27',  1, 7, '8-965-374-35-87', 1)

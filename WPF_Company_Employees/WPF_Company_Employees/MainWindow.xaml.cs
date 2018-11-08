@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Data.SqlClient;
 
 namespace WPF_Company_Employees
 {
@@ -15,6 +16,14 @@ namespace WPF_Company_Employees
 
         public MainWindow()
         {
+            SqlConnectionStringBuilder connectionString = new SqlConnectionStringBuilder();
+            connectionString.DataSource = @"(LocalDB)\MSSQLLocalDB";
+            connectionString.InitialCatalog = "HWWPF";
+            connectionString.IntegratedSecurity = true;
+            connectionString.Pooling = false;
+
+            // Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename="C:\Users\Графическая Станция\HWWPF.mdf";Integrated Security=True;Connect Timeout=30
+            //string connectionString =  @"";
             // инициализация
             InitializeComponent();
             p = new Presenter(this);
@@ -38,6 +47,37 @@ namespace WPF_Company_Employees
             departments_Combo.SelectionChanged += delegate { p.fillEmployeesList(); };
             employeesView.SelectionChanged += delegate { p.fillEmployeeInfo(); };
             Change_Employee_Department_Combo.SelectionChanged += delegate { p.Change_Employee_Department(); };
+
+            // TestZone AddEmployeeInDepartment
+
+            // (1, 50, '2018-08-11', '1993-8-21',  1, 1, '8-963-777-39-97', 1)
+
+            try
+            {
+                testButton.Click += delegate
+                {
+
+                    // Full Name
+                    var sqlFullName = $@"insert into FullName(First_Name, Last_Name, Patronymic) values (N'{name_Box.Text}', N'{lastName_Box.Text}', N'{patronymic_Box.Text}'";
+
+                // надо salary закрыть изменения, и автоматически подставлять его от выбранной должности
+
+                var sqlReq = $@"INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) 
+VALUES ({ gender_Combo.SelectedIndex + 1}, (SELECT max(Id) FROM FullName), 
+'{employmentDate_Picker.SelectedDate.Value.Year}-{employmentDate_Picker.SelectedDate.Value.Month}-{employmentDate_Picker.SelectedDate.Value.Day}', 
+'{dateOfBirth_Picker.SelectedDate.Value.Year}-{dateOfBirth_Picker.SelectedDate.Value.Month}-{dateOfBirth_Picker.SelectedDate.Value.Day}', 
+{position_Combo.SelectedIndex + 1}, '{phoneNumber_Box.Text}', {/* STATUS ПО ПОЛЮ*/ status_Combo.SelectedIndex})";
+
+
+                    using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+                    {
+                        connection.Open();
+
+                    }
+                };
+            }
+            catch (Exception e)
+            { MessageBox.Show(e.ToString()); }
         }
         
         #region IView
