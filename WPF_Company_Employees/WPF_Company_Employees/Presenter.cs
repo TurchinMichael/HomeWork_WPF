@@ -1,10 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.SqlClient;
+using System.Collections.Generic;
 
 namespace WPF_Company_Employees
 {
     public class Presenter : INotifyPropertyChanged
     {
+
         public Test test;
         private IView view;
         private IViewForNewEmployee addNewEmployee;
@@ -14,6 +17,9 @@ namespace WPF_Company_Employees
         {
             this.view = View;
             test = new Test();
+
+            // Заполнение стандартной информацией
+            fillCommonInformation();
         }
 
         /// <summary>
@@ -42,7 +48,31 @@ namespace WPF_Company_Employees
         /// </summary>
         public void fillDepartmentCombo()
         {
-            view.departmentList = departmentsNames;
+            //view.departmentList = departmentsNames;
+
+        }
+
+        /// <summary>
+        /// Возвращает коллекцию создавая её из строк в БД
+        /// </summary>
+        /// <param name="s">Запрос возвращающий необходимые строки</param>
+        ICollection<string> usualMoves(string s)
+        {
+            ICollection<string> t = new List<string>();
+            SqlCommand commandRevInformation = new SqlCommand(s, test.connection);
+            SqlDataReader reader = commandRevInformation.ExecuteReader();
+
+            while (reader.Read())
+                t.Add(reader.GetString(1));
+            reader.Close();
+            return t;
+        }
+
+        public void fillCommonInformation()
+        {
+            view.statusList = usualMoves($@"select * from Status");
+            view.genderList = usualMoves($@"select * from Gender");
+            view.positionList = usualMoves($@"select * from PositionName");
         }
 
         /// <summary>
@@ -216,40 +246,82 @@ namespace WPF_Company_Employees
         {
             Full_Name tempName;
 
-            if (addNewEmployee.Patronymic == "Отчество" || addNewEmployee.Patronymic == "")
-            {
-                tempName
-                    = new Full_Name(
-                        addNewEmployee.FirstName,
-                        addNewEmployee.LastName);
-            }
-            else
-            {
-                tempName
-                    = new Full_Name(
-                        addNewEmployee.FirstName,
-                        addNewEmployee.LastName,
-                        addNewEmployee.Patronymic);
-            }
-            
-            test.AddNewEmployee(addNewEmployee.SelectedDepartment,
-                new Employee(
-                    (Gender)addNewEmployee.GenderEmployee,
-                    tempName,
-                    addNewEmployee.EmploymentDate,
-                    addNewEmployee.DateOfBirth,
-                    new Position((PositionName)addNewEmployee.PositionNameEnum, addNewEmployee.Salary),
-                    new Address(
-                        addNewEmployee.County,
-                        addNewEmployee.Region,
-                        addNewEmployee.City,
-                        addNewEmployee.Street,
-                        addNewEmployee.StreetNumber,
-                        addNewEmployee.ApartmentNumber),
-                    addNewEmployee.PhoneNumber,
-                    (Status)addNewEmployee.StatusNow));
+            // Full Name
+            var sqlFullName = $@"insert into FullName(First_Name, Last_Name, Patronymic) values (N'{addNewEmployee.FirstName}', N'{addNewEmployee.LastName}', N'{addNewEmployee.Patronymic}')";
 
-            fillEmployeesList();  /* в теории можно избежать привязкой*/
+            // Address
+            var sqlAddress = $@"insert into Address(Country,Region, City, Street, [Street Number], [Apartment Number]) values (N'{addNewEmployee.County}', N'{addNewEmployee.Region}', N'{addNewEmployee.City}', N'{addNewEmployee.Street}', {addNewEmployee.StreetNumber}, {addNewEmployee.ApartmentNumber})";
+
+            // id Status from Text
+            var sqlRevId = $@"select Status.Id from Status where Status.Status = '{addNewEmployee.StatusNow}'";
+
+
+            SqlCommand command = new SqlCommand(sqlFullName, test.connection);
+
+            // fill FullName
+            command.ExecuteNonQuery();
+
+            // fill Address
+            command.CommandText = sqlAddress;
+            command.ExecuteNonQuery();
+
+            // Get id Status from selected Text
+            command.CommandText = sqlRevId;
+
+
+            // Get id Status from selected Text
+            SqlDataReader reader = command.ExecuteReader();
+            int x = 0;
+            while (reader.Read())
+            {
+                x = reader.GetInt32(0);
+            }
+            reader.Close();
+
+
+            var sqlReqAddEmpl = $@"INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES ({ addNewEmployee.GenderEmployee + 1}, (SELECT max(Id) FROM FullName), '{addNewEmployee.EmploymentDate.Year}-{addNewEmployee.EmploymentDate.Month}-{addNewEmployee.EmploymentDate.Day}', '{addNewEmployee.DateOfBirth.Year}-{addNewEmployee.DateOfBirth.Month}-{addNewEmployee.DateOfBirth.Day}', {addNewEmployee.PositionNameEnum + 1}, (SELECT max(Id) FROM Address), '{addNewEmployee.PhoneNumber}', {x})";
+
+            // add Employee
+            command.CommandText = sqlReqAddEmpl;
+            command.ExecuteNonQuery();
+
+
+            // ==============
+
+            //if (addNewEmployee.Patronymic == "Отчество" || addNewEmployee.Patronymic == "")
+            //{
+            //    tempName
+            //        = new Full_Name(
+            //            addNewEmployee.FirstName,
+            //            addNewEmployee.LastName);
+            //}
+            //else
+            //{
+            //    tempName
+            //        = new Full_Name(
+            //            addNewEmployee.FirstName,
+            //            addNewEmployee.LastName,
+            //            addNewEmployee.Patronymic);
+            //}
+            
+            //test.AddNewEmployee(addNewEmployee.SelectedDepartment,
+            //    new Employee(
+            //        (Gender)addNewEmployee.GenderEmployee,
+            //        tempName,
+            //        addNewEmployee.EmploymentDate,
+            //        addNewEmployee.DateOfBirth,
+            //        new Position((PositionName)addNewEmployee.PositionNameEnum, addNewEmployee.Salary),
+            //        new Address(
+            //            addNewEmployee.County,
+            //            addNewEmployee.Region,
+            //            addNewEmployee.City,
+            //            addNewEmployee.Street,
+            //            addNewEmployee.StreetNumber,
+            //            addNewEmployee.ApartmentNumber),
+            //        addNewEmployee.PhoneNumber,
+            //        (Status)addNewEmployee.StatusNow));
+
+            //fillEmployeesList();  /* в теории можно избежать привязкой*/
         }
 
         /// <summary>

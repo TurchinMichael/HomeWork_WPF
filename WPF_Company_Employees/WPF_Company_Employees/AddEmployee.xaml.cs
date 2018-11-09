@@ -144,10 +144,10 @@ namespace WPF_Company_Employees
             get => phoneNumber_Box.Text;
             set => phoneNumber_Box.Text = value;
         }
-        public int StatusNow
+        public string StatusNow
         {
-            get => status_Combo.SelectedIndex;
-            set => status_Combo.SelectedIndex = value;
+            get => status_Combo.Text;
+            set => status_Combo.Text = value;
         }
 
         #endregion

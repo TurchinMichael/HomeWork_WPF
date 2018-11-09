@@ -65,6 +65,7 @@
             </ListView.View>
         </ListView>
         <Button x:Name="testButton" Content="TESTBUTTON" Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Stretch" Width="81" Margin="12,0,0,0"/>
+        <Button x:Name="testButton_Copy" Content="TESTBUTTONCLEAR" Grid.Column="4" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Stretch" Width="117" Margin="52,0,0,0"/>
 
     </Grid>
 </Window>

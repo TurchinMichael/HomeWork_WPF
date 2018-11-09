@@ -13,12 +13,27 @@ namespace WPF_Company_Employees
         /// <summary>
         /// Список отделов
         /// </summary>
-        IEnumerable<string> departmentList { get; set; }
+        ICollection<string> departmentList { get; set; }
 
         /// <summary>
         /// Список сотрудников входящих в отдел
         /// </summary>
-        IEnumerable<string> employeeList { get; set; }
+        ICollection<string> employeeList { get; set; }
+
+        /// <summary>
+        /// Список сотрудников входящих в отдел
+        /// </summary>
+        ICollection<string> statusList { get; set; }
+
+        /// <summary>
+        /// Список сотрудников входящих в отдел
+        /// </summary>
+        ICollection<string> genderList { get; set; }
+
+        /// <summary>
+        /// Список сотрудников входящих в отдел
+        /// </summary>
+        ICollection<string> positionList { get; set; }
 
         /// <summary>
         /// Индекс выбранного отдела, для перевода сотрудника

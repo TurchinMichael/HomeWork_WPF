@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.SqlClient;
 
 namespace WPF_Company_Employees
 {
@@ -10,12 +11,24 @@ namespace WPF_Company_Employees
     /// </summary>
     public class Test
     {
+        public SqlConnection connection = new SqlConnection();
+        SqlConnectionStringBuilder connectionString = new SqlConnectionStringBuilder();
+
         #region Variables
         ObservableCollection<string> employeesListString = new ObservableCollection<string>();
 
         public Test()
         {
-            CreateTestData();
+            //CreateTestData();
+            // SQL db Connection
+            connectionString.DataSource = @"(LocalDB)\MSSQLLocalDB";
+            connectionString.InitialCatalog = @"C:\Users\Графическая Станция\HWWPF.mdf";
+            connectionString.IntegratedSecurity = true;
+            connectionString.Pooling = false;
+
+            connection = new SqlConnection(connectionString.ToString());
+
+            connection.Open();
         }
 
         /// <summary>

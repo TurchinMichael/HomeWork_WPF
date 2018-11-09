@@ -16,26 +16,18 @@ namespace WPF_Company_Employees
 
         public MainWindow()
         {
-            SqlConnectionStringBuilder connectionString = new SqlConnectionStringBuilder();
-            connectionString.DataSource = @"(LocalDB)\MSSQLLocalDB";
-            connectionString.InitialCatalog = "HWWPF";
-            connectionString.IntegratedSecurity = true;
-            connectionString.Pooling = false;
-
-            // Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename="C:\Users\Графическая Станция\HWWPF.mdf";Integrated Security=True;Connect Timeout=30
-            //string connectionString =  @"";
             // инициализация
             InitializeComponent();
             p = new Presenter(this);
 
             #region ToDo
-            mainGrid.DataContext = p;           
+            mainGrid.DataContext = p;
             #endregion
 
             // заполнение заранее известной информацией (для открывающихся Combo_Box)
-            gender_Combo.ItemsSource = Enum.GetValues(typeof(Gender));  /* в теории можно избежать привязкой*/
-            position_Combo.ItemsSource = Enum.GetValues(typeof(PositionName));  /* в теории можно избежать привязкой*/
-            status_Combo.ItemsSource = Enum.GetValues(typeof(Status));  /* в теории можно избежать привязкой*/
+            //gender_Combo.ItemsSource = Enum.GetValues(typeof(Gender));  /* в теории можно избежать привязкой*/
+            //position_Combo.ItemsSource = Enum.GetValues(typeof(PositionName));  /* в теории можно избежать привязкой*/
+            //status_Combo.ItemsSource = Enum.GetValues(typeof(Status));  /* в теории можно избежать привязкой*/
             Change_Employee_Department_Combo.ItemsSource = departments_Combo.Items;
 
             // events
@@ -43,43 +35,108 @@ namespace WPF_Company_Employees
             editDepNameButton.Click += delegate { p.editDepartmentName(); };
             addButton.Click += delegate { p.AddEmployeeFormCall(); };
             deleteButton.Click += delegate { p.DeleteEmployee(); };
-            applyButton.Click += delegate { p.ChangeInformation();  };
+            applyButton.Click += delegate { p.ChangeInformation(); };
             departments_Combo.SelectionChanged += delegate { p.fillEmployeesList(); };
             employeesView.SelectionChanged += delegate { p.fillEmployeeInfo(); };
             Change_Employee_Department_Combo.SelectionChanged += delegate { p.Change_Employee_Department(); };
 
+
             // TestZone AddEmployeeInDepartment
 
-            // (1, 50, '2018-08-11', '1993-8-21',  1, 1, '8-963-777-39-97', 1)
 
-            try
-            {
-                testButton.Click += delegate
-                {
+            //SqlConnectionStringBuilder connectionString = new SqlConnectionStringBuilder();
+            //connectionString.DataSource = @"(LocalDB)\MSSQLLocalDB";
+            //connectionString.InitialCatalog = @"C:\Users\Графическая Станция\HWWPF.mdf";
+            //connectionString.IntegratedSecurity = true;
+            //connectionString.Pooling = false;
 
-                    // Full Name
-                    var sqlFullName = $@"insert into FullName(First_Name, Last_Name, Patronymic) values (N'{name_Box.Text}', N'{lastName_Box.Text}', N'{patronymic_Box.Text}'";
-
-                // надо salary закрыть изменения, и автоматически подставлять его от выбранной должности
-
-                var sqlReq = $@"INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) 
-VALUES ({ gender_Combo.SelectedIndex + 1}, (SELECT max(Id) FROM FullName), 
-'{employmentDate_Picker.SelectedDate.Value.Year}-{employmentDate_Picker.SelectedDate.Value.Month}-{employmentDate_Picker.SelectedDate.Value.Day}', 
-'{dateOfBirth_Picker.SelectedDate.Value.Year}-{dateOfBirth_Picker.SelectedDate.Value.Month}-{dateOfBirth_Picker.SelectedDate.Value.Day}', 
-{position_Combo.SelectedIndex + 1}, '{phoneNumber_Box.Text}', {/* STATUS ПО ПОЛЮ*/ status_Combo.SelectedIndex})";
+            //// Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename="C:\Users\Графическая Станция\HWWPF.mdf";Integrated Security=True;Connect Timeout=30
+            ////string connectionString =  @"";
 
 
-                    using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
-                    {
-                        connection.Open();
+            //// (1, 50, '2018-08-11', '1993-8-21',  1, 1, '8-963-777-39-97', 1)
 
-                    }
-                };
-            }
-            catch (Exception e)
-            { MessageBox.Show(e.ToString()); }
+            //testButton_Copy.Click += delegate
+            //{
+            //    //status_Combo.Items.Clear();
+            //    using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            //    {
+            //        connection.Open();
+            //        status_Combo.Items.Clear();
+            //        var sqlRevId = $@"select * from Status";
+            //        SqlCommand commandRevId = new SqlCommand(sqlRevId, connection);
+            //        //MessageBox.Show(sqlRevId);
+            //        SqlDataReader reader = commandRevId.ExecuteReader();
+
+
+
+            //        while (reader.Read())
+            //        {
+            //            status_Combo.Items.Add(reader.GetString(1));
+            //            //MessageBox.Show((reader.GetInt32(0)).ToString());
+            //        }
+            //    }
+            //};
+
+            //try
+            //{
+            //    testButton.Click += delegate
+            //    {
+            //        //(int)Enum.GetValues(typeof(Status))
+            //        using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            //        {
+
+            //            connection.Open();
+            //            //SqlCommand command = new SqlCommand(sqlFullName, connection);
+            //            //command.ExecuteNonQuery();
+            //            //MessageBox.Show(sqlFullName);
+
+
+            //            // Full Name
+            //            var sqlFullName = $@"insert into FullName(First_Name, Last_Name, Patronymic) values (N'{name_Box.Text}', N'{lastName_Box.Text}', N'{patronymic_Box.Text}')";
+
+            //            // Address
+            //            var sqlAddress = $@"insert into Address(Country,Region, City, Street, [Street Number], [Apartment Number]) values (N'{county_Box.Text}', N'{region_Box.Text}', N'{city_Box.Text}', N'{street_Box.Text}', {streetNumber_Box.Text}, {apartmentNumber_Box.Text})";
+
+            //            // id Status from Text
+            //            var sqlRevId = $@"select Status.Id from Status where Status.Status = '{status_Combo.Text}'";
+
+
+            //            SqlCommand command = new SqlCommand(sqlFullName, connection);
+
+            //            // fill FullName
+            //            command.ExecuteNonQuery();
+
+            //            // fill Address
+            //            command.CommandText = sqlAddress;
+            //            command.ExecuteNonQuery();
+
+            //            // Get id Status from selected Text
+            //            command.CommandText = sqlRevId;
+
+
+            //            // Get id Status from selected Text
+            //            SqlDataReader reader = command.ExecuteReader();
+            //            int x = 0;
+            //            while (reader.Read())
+            //            {
+            //                x = reader.GetInt32(0);
+            //            }
+            //            reader.Close();
+
+
+            //            var sqlReqAddEmpl = $@"INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES ({ gender_Combo.SelectedIndex + 1}, (SELECT max(Id) FROM FullName), '{employmentDate_Picker.SelectedDate.Value.Year}-{employmentDate_Picker.SelectedDate.Value.Month}-{employmentDate_Picker.SelectedDate.Value.Day}', '{dateOfBirth_Picker.SelectedDate.Value.Year}-{dateOfBirth_Picker.SelectedDate.Value.Month}-{dateOfBirth_Picker.SelectedDate.Value.Day}', {position_Combo.SelectedIndex + 1}, (SELECT max(Id) FROM Address), '{phoneNumber_Box.Text}', {x})";
+
+            //            // add Employee
+            //            command.CommandText = sqlReqAddEmpl;
+            //            command.ExecuteNonQuery();
+            //        }
+            //    };
+            //}
+            //catch (Exception e)
+            //{ MessageBox.Show(e.ToString()); }
         }
-        
+
         #region IView
 
         public bool departments_ComboIsEditable
@@ -182,20 +239,46 @@ VALUES ({ gender_Combo.SelectedIndex + 1}, (SELECT max(Id) FROM FullName),
             get => status_Combo.SelectedIndex;
             set => status_Combo.SelectedIndex = value;
         }
-        public IEnumerable<string> employeeList
+        public ICollection<string> employeeList
         {
-            get => employeesView.ItemsSource as IEnumerable<string>;
+            get => employeesView.ItemsSource as ICollection<string>;
             set => employeesView.ItemsSource = value;
         }
-        public IEnumerable<string> departmentList
+        public ICollection<string> departmentList
         {
-            get => departments_Combo.ItemsSource as IEnumerable<string>;
+            get => departments_Combo.ItemsSource as ICollection<string>;
             set => departments_Combo.ItemsSource = value;
         }
         public string DepartmentComboText
         {
             get => departments_Combo.Text;
             set => departments_Combo.Text = value;
+        }
+
+        /// <summary>
+        /// Список сотрудников входящих в отдел
+        /// </summary>
+        public ICollection<string> statusList {
+            get => status_Combo.ItemsSource as ICollection<string>;
+            set => status_Combo.ItemsSource = value;
+        }
+
+        /// <summary>
+        /// Список сотрудников входящих в отдел
+        /// </summary>
+        public ICollection<string> genderList
+        {
+            get => gender_Combo.ItemsSource as List<string>;
+            set => gender_Combo.ItemsSource = value;
+        }
+
+        /// <summary>
+        /// Список сотрудников входящих в отдел
+        /// </summary>
+        public ICollection<string> positionList
+        {
+            get => position_Combo.ItemsSource as ICollection<string>;
+            set => position_Combo.ItemsSource = value;
         }
 
         #endregion

@@ -94,7 +94,7 @@ namespace WPF_Company_Employees
         /// <summary>
         /// Статус сотрудника
         /// </summary>
-        int StatusNow { get; set; }
+        string StatusNow { get; set; }
 
         /// <summary>
         /// Получение презентера
