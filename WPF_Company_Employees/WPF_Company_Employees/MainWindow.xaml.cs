@@ -41,103 +41,22 @@ namespace WPF_Company_Employees
             Change_Employee_Department_Combo.SelectionChanged += delegate { p.Change_Employee_Department(); };
 
 
-            // TestZone AddEmployeeInDepartment
+            //employeesView.Items.Add(new MyItem { Id = 1, Name = "David" });
+        }
 
+        public class MyItem
+        {
+            public int Id { get; set; }
 
-            //SqlConnectionStringBuilder connectionString = new SqlConnectionStringBuilder();
-            //connectionString.DataSource = @"(LocalDB)\MSSQLLocalDB";
-            //connectionString.InitialCatalog = @"C:\Users\Графическая Станция\HWWPF.mdf";
-            //connectionString.IntegratedSecurity = true;
-            //connectionString.Pooling = false;
-
-            //// Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename="C:\Users\Графическая Станция\HWWPF.mdf";Integrated Security=True;Connect Timeout=30
-            ////string connectionString =  @"";
-
-
-            //// (1, 50, '2018-08-11', '1993-8-21',  1, 1, '8-963-777-39-97', 1)
-
-            //testButton_Copy.Click += delegate
-            //{
-            //    //status_Combo.Items.Clear();
-            //    using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
-            //    {
-            //        connection.Open();
-            //        status_Combo.Items.Clear();
-            //        var sqlRevId = $@"select * from Status";
-            //        SqlCommand commandRevId = new SqlCommand(sqlRevId, connection);
-            //        //MessageBox.Show(sqlRevId);
-            //        SqlDataReader reader = commandRevId.ExecuteReader();
-
-
-
-            //        while (reader.Read())
-            //        {
-            //            status_Combo.Items.Add(reader.GetString(1));
-            //            //MessageBox.Show((reader.GetInt32(0)).ToString());
-            //        }
-            //    }
-            //};
-
-            //try
-            //{
-            //    testButton.Click += delegate
-            //    {
-            //        //(int)Enum.GetValues(typeof(Status))
-            //        using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
-            //        {
-
-            //            connection.Open();
-            //            //SqlCommand command = new SqlCommand(sqlFullName, connection);
-            //            //command.ExecuteNonQuery();
-            //            //MessageBox.Show(sqlFullName);
-
-
-            //            // Full Name
-            //            var sqlFullName = $@"insert into FullName(First_Name, Last_Name, Patronymic) values (N'{name_Box.Text}', N'{lastName_Box.Text}', N'{patronymic_Box.Text}')";
-
-            //            // Address
-            //            var sqlAddress = $@"insert into Address(Country,Region, City, Street, [Street Number], [Apartment Number]) values (N'{county_Box.Text}', N'{region_Box.Text}', N'{city_Box.Text}', N'{street_Box.Text}', {streetNumber_Box.Text}, {apartmentNumber_Box.Text})";
-
-            //            // id Status from Text
-            //            var sqlRevId = $@"select Status.Id from Status where Status.Status = '{status_Combo.Text}'";
-
-
-            //            SqlCommand command = new SqlCommand(sqlFullName, connection);
-
-            //            // fill FullName
-            //            command.ExecuteNonQuery();
-
-            //            // fill Address
-            //            command.CommandText = sqlAddress;
-            //            command.ExecuteNonQuery();
-
-            //            // Get id Status from selected Text
-            //            command.CommandText = sqlRevId;
-
-
-            //            // Get id Status from selected Text
-            //            SqlDataReader reader = command.ExecuteReader();
-            //            int x = 0;
-            //            while (reader.Read())
-            //            {
-            //                x = reader.GetInt32(0);
-            //            }
-            //            reader.Close();
-
-
-            //            var sqlReqAddEmpl = $@"INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES ({ gender_Combo.SelectedIndex + 1}, (SELECT max(Id) FROM FullName), '{employmentDate_Picker.SelectedDate.Value.Year}-{employmentDate_Picker.SelectedDate.Value.Month}-{employmentDate_Picker.SelectedDate.Value.Day}', '{dateOfBirth_Picker.SelectedDate.Value.Year}-{dateOfBirth_Picker.SelectedDate.Value.Month}-{dateOfBirth_Picker.SelectedDate.Value.Day}', {position_Combo.SelectedIndex + 1}, (SELECT max(Id) FROM Address), '{phoneNumber_Box.Text}', {x})";
-
-            //            // add Employee
-            //            command.CommandText = sqlReqAddEmpl;
-            //            command.ExecuteNonQuery();
-            //        }
-            //    };
-            //}
-            //catch (Exception e)
-            //{ MessageBox.Show(e.ToString()); }
+            public string Name { get; set; }
         }
 
         #region IView
+
+        public ItemCollection employeesViewItems
+        {
+            get => employeesView.Items;
+        }
 
         public bool departments_ComboIsEditable
         {

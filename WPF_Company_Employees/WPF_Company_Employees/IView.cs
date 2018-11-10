@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace WPF_Company_Employees
 {
     public interface IView // все поля из окна
     {
+
+        /// <summary>
+        /// Список сотрудников вид ListView
+        /// </summary>
+        ItemCollection employeesViewItems { get; /*set; */}
+
         /// <summary>
         /// Возможность изменять наименование отдела
         /// </summary>

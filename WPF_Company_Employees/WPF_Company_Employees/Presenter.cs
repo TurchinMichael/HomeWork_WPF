@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace WPF_Company_Employees
 {
@@ -20,6 +21,7 @@ namespace WPF_Company_Employees
 
             // Заполнение стандартной информацией
             fillCommonInformation();
+            fillDepartmentCombo();
         }
 
         /// <summary>
@@ -37,43 +39,102 @@ namespace WPF_Company_Employees
                     temp.Add(obj.DepartmentName);
                 }
                 //this.NotifyPropertyChanged("departmentsNames");
-                NotifyPropertyChanged(nameof(this.departmentsNames));
+               // NotifyPropertyChanged(nameof(this.departmentsNames));
 
                 return temp;
             }
         }
 
         /// <summary>
-        /// Заполнение списка отделов
+        /// Заполнение списка отделов в главном окне
         /// </summary>
         public void fillDepartmentCombo()
         {
-            //view.departmentList = departmentsNames;
+            view.departmentList = usualMoves($@"select * from [Department Name]", 1);
+        }
 
+        /// <summary>
+        /// Заполнение списка отделов в окне добавления нового сотрудника
+        /// </summary>
+        public void fillDepartmentComboAddEmployee(/*AddEmployee AddEmployeeForm*/)
+        {
+            addNewEmployee.departmentList = usualMoves($@"select * from [Department Name]", 1);
         }
 
         /// <summary>
         /// Возвращает коллекцию создавая её из строк в БД
         /// </summary>
         /// <param name="s">Запрос возвращающий необходимые строки</param>
-        ICollection<string> usualMoves(string s)
+        /// <param name="columnIndex">Номер необходимой колонки</param>
+        ICollection<string> usualMoves(string s, int columnIndex)
         {
             ICollection<string> t = new List<string>();
             SqlCommand commandRevInformation = new SqlCommand(s, test.connection);
             SqlDataReader reader = commandRevInformation.ExecuteReader();
 
             while (reader.Read())
-                t.Add(reader.GetString(1));
+            {
+                t.Add(reader.GetString(columnIndex));
+            }
             reader.Close();
             return t;
         }
 
+        public class MyItem
+        {
+            public int Id { get; set; }
+
+            public string Name { get; set; }
+        }
+
+        /// <summary>
+        /// Возвращает коллекцию создавая её из строк в БД
+        /// </summary>
+        /// <param name="s">Запрос возвращающий необходимые строки</param>
+        void usualMovesForString(string s)
+        {
+            view.employeesViewItems.Clear();
+            //List<string> t = new List<string>();
+            SqlCommand commandRevInformation = new SqlCommand(s, test.connection);
+            SqlDataReader reader = commandRevInformation.ExecuteReader();
+
+            while (reader.Read())
+            {
+                if (!reader.IsDBNull(3)) // т.к. отчество может быть Null
+                {
+                    //t.Add(reader.GetString(1) + reader.GetString(2) + reader.GetString(3));
+                    view.employeesViewItems.Add(new MyItem { Id = reader.GetInt32(0), Name = (reader.GetString(1) + reader.GetString(2) + reader.GetString(3)) });
+                }
+                else
+                {
+                    //t.Add(reader.GetString(1) + reader.GetString(2));
+                    view.employeesViewItems.Add(new MyItem { Id = reader.GetInt32(0), Name = (reader.GetString(1) + reader.GetString(2)) });
+                }
+            }
+            reader.Close();
+            //return t;
+        }
+
+        /// <summary>
+        /// Заполнение стандартной информации для Combo Box
+        /// </summary>
         public void fillCommonInformation()
         {
-            view.statusList = usualMoves($@"select * from Status");
-            view.genderList = usualMoves($@"select * from Gender");
-            view.positionList = usualMoves($@"select * from PositionName");
+            view.statusList = usualMoves($@"select * from Status", 1);
+            view.genderList = usualMoves($@"select * from Gender", 1);
+            view.positionList = usualMoves($@"select * from PositionName", 1);
         }
+
+        /// <summary>
+        /// Заполнение стандартной информации для Combo Box
+        /// </summary>
+        public void fillCommonInformationAddEmployee()
+        {
+            addNewEmployee.statusList = usualMoves($@"select * from Status", 1);
+            addNewEmployee.genderList = usualMoves($@"select * from Gender", 1);
+            addNewEmployee.positionList = usualMoves($@"select * from PositionName", 1);
+        }
+
 
         /// <summary>
         /// Метод заполняющий лист сотрудников выбранного отдела
@@ -82,33 +143,84 @@ namespace WPF_Company_Employees
         {
             if (view.SelectedDepartment >= 0)
             {
-                ObservableCollection<string> employeesList = new ObservableCollection<string>();
-
-                foreach (var obj in test.Departments[view.SelectedDepartment].Employees)
-                    employeesList.Add(obj.Full_Name.ToString());
-
-                view.employeeList = employeesList;
-                view.Selected_Change_Employee_Department_Combo = view.SelectedDepartment;
+                /*view.employeeList = */
+                usualMovesForString($@"select Employee.Id, FullName.Last_Name, FullName.First_Name, FullName.Patronymic from Department inner join Employee on Department.Employee = Employee.Id inner join[Department Name] on Department.[Department Name] = [Department Name].Id inner join FullName on FullName.Id = Employee.[Full Name] where[Department Name] = {view.SelectedDepartment + 1}");
             }
         }
-        
+
         /// <summary>
         /// Метод вызываемый при смене отдела в окне сотрудника
         /// Метод переводящий сотрудника между отделами
         /// </summary>
         public void Change_Employee_Department()
         {
-            if (view.SelectedEmployee >= 0 
-                && view.SelectedDepartment >= 0 
-                && view.Selected_Change_Employee_Department_Combo >= 0 
+            if (view.SelectedEmployee >= 0
+                && view.SelectedDepartment >= 0
+                && view.Selected_Change_Employee_Department_Combo >= 0
                 && view.SelectedDepartment != view.Selected_Change_Employee_Department_Combo)
             {
-                test.transferEmployeeBetweenDepartments(view.Selected_Change_Employee_Department_Combo, view.SelectedDepartment, view.SelectedEmployee);
+                var sqlRevTranferEmployee = $"UPDATE Department SET [Department Name] = {view.Selected_Change_Employee_Department_Combo + 1} WHERE (Employee = {(view.employeesViewItems.GetItemAt(view.SelectedEmployee) as MyItem).Id})";
+
+
+                SqlCommand command = new SqlCommand(sqlRevTranferEmployee, test.connection);
+
+                command.ExecuteNonQuery();
+
+
+                //test.transferEmployeeBetweenDepartments(view.Selected_Change_Employee_Department_Combo, view.SelectedDepartment, view.SelectedEmployee);
 
                 view.SelectedDepartment = view.Selected_Change_Employee_Department_Combo;
 
-                view.SelectedEmployee = test.Departments[view.Selected_Change_Employee_Department_Combo].Employees.Count - 1;
+                //view.SelectedEmployee = test.Departments[view.Selected_Change_Employee_Department_Combo].Employees.Count - 1;
             }
+        }
+
+        void GetEmployee(string s)
+        {
+            //Employee tempEmployee;
+            SqlCommand commandRevInformation = new SqlCommand(s, test.connection);
+            SqlDataReader reader = commandRevInformation.ExecuteReader();
+            string TempStatus = string.Empty;
+
+            while (reader.Read())
+            {
+                view.GenderEmployee = reader.GetInt32(1) - 1;
+                view.FirstName = reader.GetString(2);
+                view.LastName = reader.GetString(3);
+                if (!reader.IsDBNull(4))
+                    view.Patronymic = reader.GetString(4);
+                view.EmploymentDate = reader.GetDateTime(5);
+                view.DateOfBirth = reader.GetDateTime(6);
+                view.PositionNameEnum = reader.GetInt32(7) - 1;
+                view.Salary = reader.GetDecimal(8);
+                view.County = reader.GetString(9);
+                view.Region = reader.GetString(10);
+                view.City = reader.GetString(11);
+                view.Street = reader.GetString(12);
+                view.StreetNumber = reader.GetInt32(13);
+                view.ApartmentNumber = reader.GetInt32(14);
+                view.PhoneNumber = reader.GetString(15);
+                TempStatus = reader.GetString(16);
+            }
+            reader.Close();
+
+            //commandRevInformation.CommandText = $@"select Status.Id from Status where Status.Status = '{TempStatus}'";
+            ////bool k = view.statusList.Contains(TempStatus);
+            //reader = commandRevInformation.ExecuteReader();
+            int x = 0;
+            for (int i = 0; i < view.statusList.Count; i++)
+            {
+                if ((view.statusList as List<string>)[i] == TempStatus)
+                    x = i;
+            }
+            //int item = view.statusList.Where(z => z.ID == 12).FirstOrDefault();
+            view.StatusNow = x;
+
+            //while (reader.Read())
+            //{
+            //    view.StatusNow = reader.GetInt32(0) - 1; // получить id с имени
+            //}
+           // reader.Close();
         }
 
         /// <summary>
@@ -118,24 +230,8 @@ namespace WPF_Company_Employees
         {
             if (view.SelectedEmployee >= 0 && view.SelectedDepartment >= 0)
             {
-                Employee selectedEmployee = test.Departments[view.SelectedDepartment].Employees[view.SelectedEmployee];
                 view.Selected_Change_Employee_Department_Combo = view.SelectedDepartment;
-                view.GenderEmployee = (int)selectedEmployee.GenderEmployee;
-                view.FirstName = selectedEmployee.Full_Name.FirstName;
-                view.LastName = selectedEmployee.Full_Name.LastName;
-                view.Patronymic = selectedEmployee.Full_Name.Patronymic;
-                view.EmploymentDate = selectedEmployee.EmploymentDate;
-                view.DateOfBirth = selectedEmployee.DateOfBirth;
-                view.PositionNameEnum = (int)selectedEmployee.Position.PositionNameEnum;
-                view.Salary = selectedEmployee.Position.Salary;
-                view.County = selectedEmployee.Address.County;
-                view.Region = selectedEmployee.Address.Region;
-                view.City = selectedEmployee.Address.City;
-                view.Street = selectedEmployee.Address.Street;
-                view.StreetNumber = selectedEmployee.Address.StreetNumber;
-                view.ApartmentNumber = selectedEmployee.Address.ApartmentNumber;
-                view.PhoneNumber = selectedEmployee.PhoneNumber;
-                view.StatusNow = (int)selectedEmployee.StatusNow;
+                GetEmployee($"select  Employee.Id, Gender.id, FullName.First_Name, FullName.Last_Name, FullName.Patronymic, [Employment Date], [Date Of Birth],  PositionName.Id, Position.Salary, Address.Country, Address.Region, Address.City, Address.Street, Address.[Street Number], Address.[Apartment Number], [Phone Number], Status.Status from Employee inner join Address on Employee.Address = Address.Id inner join FullName on Employee.[Full Name] = FullName.Id inner join Gender on Employee.Gender = Gender.Id inner join Position on Employee.Position = Position.Id inner join PositionName on Position.PositionName = PositionName.Id inner join Status on Employee.Status = Status.Id where Employee.Id = {(view.employeesViewItems.GetItemAt(view.SelectedEmployee) as MyItem).Id}");
             }
         }
 
@@ -144,40 +240,56 @@ namespace WPF_Company_Employees
         /// </summary>
         public void ChangeInformation()
         {
-            Full_Name tempName;
 
-            if (view.Patronymic == "Отчество" || view.Patronymic == "")
-            {
-                tempName = new Full_Name(
-                        view.FirstName,
-                        view.LastName);
-            }
-            else
-            {
-                tempName = new Full_Name(
-                        view.FirstName,
-                        view.LastName, 
-                        view.Patronymic);
-            }
 
-            test.ChangeEmployeeInformation(
-                view.SelectedDepartment,
-                view.SelectedEmployee,
-                new Employee(
-                    (Gender)view.GenderEmployee,
-                    tempName,
-                    view.EmploymentDate,
-                    view.DateOfBirth,
-                    new Position((PositionName)view.PositionNameEnum, view.Salary),
-                    new Address(
-                        view.County,
-                        view.Region,
-                        view.City,
-                        view.Street,
-                        view.StreetNumber,
-                        view.ApartmentNumber),
-                        view.PhoneNumber,
-                        (Status)view.StatusNow));
+
+            //Full_Name tempName;
+
+            // UPDATE Department SET [Department Name] = 1 WHERE (Employee = 3)
+
+            // Full Name
+            var sqlFullName = $@"UPDATE FullName SET First_Name = N'{view.FirstName}', Last_Name = N'{view.LastName}', Patronymic =  N'{view.Patronymic}' where FullName.Id = (select Employee.[Full Name] from Employee where Employee.id = {(view.employeesViewItems.GetItemAt(view.SelectedEmployee) as MyItem).Id})";
+
+            //// Address
+            var sqlAddress = $@"UPDATE Address SET Country = N'{view.County}', Region = N'{view.Region}', City = N'{view.City}', Street = N'{view.Street}', [Street Number] = {view.StreetNumber}, [Apartment Number] = {view.ApartmentNumber} where Address.Id = (select Employee.Address from Employee where Employee.id = {(view.employeesViewItems.GetItemAt(view.SelectedEmployee) as MyItem).Id})";
+
+            //// id Status from Text
+            //var sqlRevId = $@"select Status.Id from Status where Status.Status = '{addNewEmployee.StatusNow}'";
+
+
+            SqlCommand command = new SqlCommand(sqlFullName, test.connection);
+
+            // update FullName
+            command.ExecuteNonQuery();
+
+            // update Address
+            command.CommandText = sqlAddress;
+            command.ExecuteNonQuery();
+
+            //// Get id Status from selected Text
+            //command.CommandText = sqlRevId;
+
+            // Get id Status from selected Text
+            //SqlDataReader reader = command.ExecuteReader();
+            //int x = 0;
+            //while (reader.Read())
+            //{
+            //    x = reader.GetInt32(0);
+            //}
+            //reader.Close();
+
+
+            //var sqlReqAddEmpl = $@"INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES ({ addNewEmployee.GenderEmployee + 1}, (SELECT max(Id) FROM FullName), '{addNewEmployee.EmploymentDate.Year}-{addNewEmployee.EmploymentDate.Month}-{addNewEmployee.EmploymentDate.Day}', '{addNewEmployee.DateOfBirth.Year}-{addNewEmployee.DateOfBirth.Month}-{addNewEmployee.DateOfBirth.Day}', {addNewEmployee.PositionNameEnum + 1}, (SELECT max(Id) FROM Address), '{addNewEmployee.PhoneNumber}', {x})";
+
+            //// add Employee
+            //command.CommandText = sqlReqAddEmpl;
+            //command.ExecuteNonQuery();
+
+            //// into department
+            //var sqlReqAddEmplInDepartment = $@"insert into Department([Department Name], Employee) values ({addNewEmployee.SelectedDepartment + 1}, (SELECT max(Id) FROM Employee))";
+            //command.CommandText = sqlReqAddEmplInDepartment;
+            //command.ExecuteNonQuery();
+            fillEmployeesList();
         }
 
         /// <summary>
@@ -219,7 +331,7 @@ namespace WPF_Company_Employees
             System.Console.WriteLine(departmentsNames);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.departmentsNames)));
         }
-        
+
         /// <summary>
         /// Метод создающий окно добавления нового сотрудника
         /// </summary>
@@ -228,6 +340,8 @@ namespace WPF_Company_Employees
             addNewEmployee = new AddEmployee();
             addNewEmployee.GetDepatments(this);
             addNewEmployee.Owner(view as MainWindow);
+            fillCommonInformationAddEmployee();
+            fillDepartmentComboAddEmployee(/*addNewEmployee*/);
             addNewEmployee.Show();
         }
 
@@ -236,7 +350,7 @@ namespace WPF_Company_Employees
         /// </summary>
         public void fillAddEmployeeDepartmentCombo()
         {
-            addNewEmployee.departmentList = departmentsNames;            
+            addNewEmployee.departmentList = departmentsNames;
         }
 
         /// <summary>
@@ -244,7 +358,7 @@ namespace WPF_Company_Employees
         /// </summary>
         public void SaveNewEmployee()
         {
-            Full_Name tempName;
+            //Full_Name tempName;
 
             // Full Name
             var sqlFullName = $@"insert into FullName(First_Name, Last_Name, Patronymic) values (N'{addNewEmployee.FirstName}', N'{addNewEmployee.LastName}', N'{addNewEmployee.Patronymic}')";
@@ -268,7 +382,6 @@ namespace WPF_Company_Employees
             // Get id Status from selected Text
             command.CommandText = sqlRevId;
 
-
             // Get id Status from selected Text
             SqlDataReader reader = command.ExecuteReader();
             int x = 0;
@@ -280,48 +393,15 @@ namespace WPF_Company_Employees
 
 
             var sqlReqAddEmpl = $@"INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES ({ addNewEmployee.GenderEmployee + 1}, (SELECT max(Id) FROM FullName), '{addNewEmployee.EmploymentDate.Year}-{addNewEmployee.EmploymentDate.Month}-{addNewEmployee.EmploymentDate.Day}', '{addNewEmployee.DateOfBirth.Year}-{addNewEmployee.DateOfBirth.Month}-{addNewEmployee.DateOfBirth.Day}', {addNewEmployee.PositionNameEnum + 1}, (SELECT max(Id) FROM Address), '{addNewEmployee.PhoneNumber}', {x})";
-
+                       
             // add Employee
             command.CommandText = sqlReqAddEmpl;
             command.ExecuteNonQuery();
 
-
-            // ==============
-
-            //if (addNewEmployee.Patronymic == "Отчество" || addNewEmployee.Patronymic == "")
-            //{
-            //    tempName
-            //        = new Full_Name(
-            //            addNewEmployee.FirstName,
-            //            addNewEmployee.LastName);
-            //}
-            //else
-            //{
-            //    tempName
-            //        = new Full_Name(
-            //            addNewEmployee.FirstName,
-            //            addNewEmployee.LastName,
-            //            addNewEmployee.Patronymic);
-            //}
-            
-            //test.AddNewEmployee(addNewEmployee.SelectedDepartment,
-            //    new Employee(
-            //        (Gender)addNewEmployee.GenderEmployee,
-            //        tempName,
-            //        addNewEmployee.EmploymentDate,
-            //        addNewEmployee.DateOfBirth,
-            //        new Position((PositionName)addNewEmployee.PositionNameEnum, addNewEmployee.Salary),
-            //        new Address(
-            //            addNewEmployee.County,
-            //            addNewEmployee.Region,
-            //            addNewEmployee.City,
-            //            addNewEmployee.Street,
-            //            addNewEmployee.StreetNumber,
-            //            addNewEmployee.ApartmentNumber),
-            //        addNewEmployee.PhoneNumber,
-            //        (Status)addNewEmployee.StatusNow));
-
-            //fillEmployeesList();  /* в теории можно избежать привязкой*/
+            // into department
+            var sqlReqAddEmplInDepartment = $@"insert into Department([Department Name], Employee) values ({addNewEmployee.SelectedDepartment + 1}, (SELECT max(Id) FROM Employee))";
+            command.CommandText = sqlReqAddEmplInDepartment;
+            command.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -329,24 +409,30 @@ namespace WPF_Company_Employees
         /// </summary>
         public void DeleteEmployee()
         {
-            test.DeleteEmployee(view.SelectedDepartment, view.SelectedEmployee);
+            int z = (view.employeesViewItems.GetItemAt(view.SelectedEmployee) as MyItem).Id;
+            var sqlReqDelEmpl = $"delete from Employee where Id = {(view.employeesViewItems.GetItemAt(view.SelectedEmployee) as MyItem).Id}";
+
+            SqlCommand command = new SqlCommand(sqlReqDelEmpl, test.connection);
+            command.ExecuteNonQuery();
+            fillEmployeesList();
+            //test.DeleteEmployee(view.SelectedDepartment, view.SelectedEmployee);
 
 
-            fillEmployeesList();  /* в теории можно избежать привязкой*/
+            //fillEmployeesList();  /* в теории можно избежать привязкой*/
         }
-             
+
         int
             departmentNumber,
             employeeNumber;
 
         public event PropertyChangedEventHandler PropertyChanged; // INotifyPropertyChanged
 
-        public void NotifyPropertyChanged(string propName)
-        {
-            if (this.PropertyChanged == null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
-        
+        //public void NotifyPropertyChanged(string propName)
+        //{
+        //    if (this.PropertyChanged == null)
+        //        this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        //}
+
         ///// <summary>
         ///// Метод запоминающий положение выбора пользователя
         ///// </summary>

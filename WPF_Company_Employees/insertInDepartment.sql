@@ -1,0 +1,1 @@
+﻿INSERT INTO Employee(Gender,[Full Name], [Employment Date], [Date Of Birth], Position, Address, [Phone Number], Status) VALUES (2, (SELECT max(Id) FROM FullName), '2018-10-29', '2018-10-29', 5, (SELECT max(Id) FROM Address), 'w34', 7)

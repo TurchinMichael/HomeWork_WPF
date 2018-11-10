@@ -7,6 +7,21 @@ namespace WPF_Company_Employees
     interface IViewForNewEmployee
     {
         /// <summary>
+        /// Список сотрудников входящих в отдел
+        /// </summary>
+        ICollection<string> statusList { get; set; }
+
+        /// <summary>
+        /// Список сотрудников входящих в отдел
+        /// </summary>
+        ICollection<string> genderList { get; set; }
+
+        /// <summary>
+        /// Список сотрудников входящих в отдел
+        /// </summary>
+        ICollection<string> positionList { get; set; }
+
+        /// <summary>
         /// Список отделов
         /// </summary>
         IEnumerable<string> departmentList { get; set; }

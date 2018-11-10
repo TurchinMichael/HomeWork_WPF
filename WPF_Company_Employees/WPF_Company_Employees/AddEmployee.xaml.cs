@@ -149,6 +149,33 @@ namespace WPF_Company_Employees
             get => status_Combo.Text;
             set => status_Combo.Text = value;
         }
+        
+        /// <summary>
+        /// Список сотрудников входящих в отдел
+        /// </summary>
+        public ICollection<string> statusList
+        {
+            get => status_Combo.ItemsSource as ICollection<string>;
+            set => status_Combo.ItemsSource = value;
+        }
+
+        /// <summary>
+        /// Список сотрудников входящих в отдел
+        /// </summary>
+        public ICollection<string> genderList
+        {
+            get => gender_Combo.ItemsSource as List<string>;
+            set => gender_Combo.ItemsSource = value;
+        }
+
+        /// <summary>
+        /// Список сотрудников входящих в отдел
+        /// </summary>
+        public ICollection<string> positionList
+        {
+            get => position_Combo.ItemsSource as ICollection<string>;
+            set => position_Combo.ItemsSource = value;
+        }
 
         #endregion
 

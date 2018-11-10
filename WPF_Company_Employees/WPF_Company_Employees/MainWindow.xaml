@@ -60,7 +60,8 @@
         <ListView x:Name="employeesView" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
         </ListView>

@@ -22,7 +22,7 @@ namespace WPF_Company_Employees
             //CreateTestData();
             // SQL db Connection
             connectionString.DataSource = @"(LocalDB)\MSSQLLocalDB";
-            connectionString.InitialCatalog = @"C:\Users\Графическая Станция\HWWPF.mdf";
+            connectionString.InitialCatalog = @"X:\GIT\Turchin_Michael_HomeWork_WPF\WPF_Company_Employees\WPF_Company_Employees\nedDB1\HWWPF.mdf"; // Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=X:\GIT\Turchin_Michael_HomeWork_WPF\WPF_Company_Employees\WPF_Company_Employees\nedDB1\HWWPF.mdf;Integrated Security=True;Connect Timeout=30
             connectionString.IntegratedSecurity = true;
             connectionString.Pooling = false;
 
