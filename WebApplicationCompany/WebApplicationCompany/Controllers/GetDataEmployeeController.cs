@@ -18,11 +18,11 @@ namespace WebApplicationCompany.Controllers
             return employeeData.GetEmployeeId(id);
         }
 
-
+        
         [Route("addemployee")]
         public HttpResponseMessage Post([FromBody]Employee value)
         {
-            if (value != null)
+            if (employeeData.AddEmployee(value))
                 return Request.CreateResponse(HttpStatusCode.Created);
             else return Request.CreateResponse(HttpStatusCode.BadRequest);
         }

@@ -5,6 +5,7 @@ namespace WebApplicationCompany.Models
 {
     #region base classes
 
+    [Serializable]
     /// <summary>
     /// Класс сущности сотрудника компании
     /// </summary>
@@ -32,7 +33,7 @@ namespace WebApplicationCompany.Models
         Address _address;
         string _phoneNumber;
         Status _status;
-        
+
         /// <summary>
         /// Пол сотрудника
         /// </summary>
@@ -179,6 +180,7 @@ namespace WebApplicationCompany.Models
 
     #region enumVariables
 
+    [Serializable]
     /// <summary>
     /// Наименование должности
     /// </summary>
@@ -191,6 +193,7 @@ namespace WebApplicationCompany.Models
         Secretary
     }
 
+    [Serializable]
     /// <summary>
     /// Пол сотруника
     /// </summary>
@@ -199,6 +202,7 @@ namespace WebApplicationCompany.Models
         M, W
     }
 
+    [Serializable]
     /// <summary>
     /// В каком состоянии на данный момент находится сотрудник
     /// </summary>
@@ -212,6 +216,8 @@ namespace WebApplicationCompany.Models
     #endregion
 
     #region secondary classes
+
+    [Serializable]
     /// <summary>
     /// Класс описывающий адрес
     /// </summary>
@@ -307,6 +313,7 @@ namespace WebApplicationCompany.Models
         }
     }
 
+    [Serializable]
     /// <summary>
     /// Класс описывающий должность
     /// </summary>
@@ -350,6 +357,7 @@ namespace WebApplicationCompany.Models
         }
     }
 
+    [Serializable]
     /// <summary>
     /// Класс описывающий ФИО сотрудника
     /// </summary>
